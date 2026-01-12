@@ -8,5 +8,6 @@ import com.granoAndClick.granoAndClick.model.Usuarios;
 
 public interface UsuariosRepository extends JpaRepository <Usuarios, Long>{
 	Optional<Usuarios> findByNombres (String nombres);
+	Optional<Usuarios> findByCorreo(String correo);
 
 }
