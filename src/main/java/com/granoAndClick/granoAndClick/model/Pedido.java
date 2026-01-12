@@ -10,12 +10,12 @@ import java.util.List;
 public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "pedido_id", unique = true, nullable = false)
+	@Column(name = "pedido_id")
 	private Long pedidoId;
 	
 	@ManyToOne
 	@JoinColumn(name = "usuario_id", nullable = false)
-	private Usuarios usuarioId;
+	private Usuarios usuario;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "fecha_pedido", nullable = false)
@@ -35,7 +35,7 @@ public class Pedido {
 	}
 
 	public Pedido(Usuarios usuarioId, Date fechaPedido, String estado, BigDecimal costoEnvio, BigDecimal total) {
-		this.usuarioId = usuarioId;
+		this.usuario = usuarioId;
 		this.fechaPedido = fechaPedido;
 		this.estado = estado;
 		this.costoEnvio = costoEnvio;
@@ -51,11 +51,11 @@ public class Pedido {
 	}
 
 	public Usuarios getUsuarioId() {
-		return usuarioId;
+		return usuario;
 	}
 
 	public void setUsuarioId(Usuarios usuarioId) {
-		this.usuarioId = usuarioId;
+		this.usuario = usuarioId;
 	}
 
 	public Date getFechaPedido() {
@@ -92,6 +92,6 @@ public class Pedido {
 
 	@Override
 	public String toString() {
-		return "Pedido [id=" + pedidoId + ", usuario=" + usuarioId + ", total=" + total + "]";
+		return "Pedido [id=" + pedidoId + ", usuario=" + usuario + ", total=" + total + "]";
 	}
 }

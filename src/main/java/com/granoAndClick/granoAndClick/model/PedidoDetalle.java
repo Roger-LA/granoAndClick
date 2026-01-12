@@ -13,11 +13,11 @@ public class PedidoDetalle {
 
 	@ManyToOne
 	@JoinColumn(name = "pedido_id", nullable = false)
-	private Pedido pedidoId;
+	private Pedido pedido;
 
 	@ManyToOne
 	@JoinColumn(name = "producto_id", nullable = false)
-	private Producto productoId;
+	private Producto producto;
 
 	private Integer cantidad;
 
@@ -36,19 +36,19 @@ public class PedidoDetalle {
 	}
 
 	public Pedido getPedidoId() {
-		return pedidoId;
+		return pedido;
 	}
 
 	public void setPedidoId(Pedido pedidoId) {
-		this.pedidoId = pedidoId;
+		this.pedido = pedidoId;
 	}
 
 	public Producto getProductoId() {
-		return productoId;
+		return producto;
 	}
 
 	public void setProductoId(Producto productoId) {
-		this.productoId = productoId;
+		this.producto = productoId;
 	}
 
 	public Integer getCantidad() {
@@ -69,7 +69,7 @@ public class PedidoDetalle {
 
 	@Override
 	public String toString() {
-		return "PedidoDetalle [detalleId=" + detalleId + ", pedidoId=" + pedidoId + ", productoId=" + productoId
+		return "PedidoDetalle [detalleId=" + detalleId + ", pedidoId=" + pedido + ", productoId=" + producto
 				+ ", cantidad=" + cantidad + ", precioUnitario=" + precioUnitario + "]";
 	}
 	

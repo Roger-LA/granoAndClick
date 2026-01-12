@@ -27,7 +27,7 @@ public class PedidoService {
 	}
 
 	public List<Pedido> obtenerPorUsuario(Long usuarioId) {
-		return repository.findByUsuarioId(usuarioId);
+		return repository.findByUsuario_UsuarioId(usuarioId);
 	}
 
 	public Pedido guardarPedido(Pedido pedido) {
@@ -42,15 +42,14 @@ public class PedidoService {
 		}
 	}
 
-	public Pedido actualizarEstado(Long id, String nuevoEstado) {
-		Pedido pedido = repository.findById(id)
-				.orElseThrow(() -> new IllegalArgumentException("No se encontró el pedido para actualizar"));
-		
-		if (nuevoEstado != null) {
-			pedido.setEstado(nuevoEstado);
-		}
-		
-		return repository.save(pedido);
-	}
+	public Pedido actualizarPedido(Long id, Pedido datosActualizados) {
+        Pedido pedidoExistente = obtenerPorId(id);
+        
+        if (datosActualizados.getEstado() != null) pedidoExistente.setEstado(datosActualizados.getEstado());
+        if (datosActualizados.getTotal() != null) pedidoExistente.setTotal(datosActualizados.getTotal());
+        if (datosActualizados.getCostoEnvio() != null) pedidoExistente.setCostoEnvio(datosActualizados.getCostoEnvio());
+        
+        return repository.save(pedidoExistente);
+    }
 
 }// class PedidoService

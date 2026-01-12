@@ -22,10 +22,20 @@ public class PedidoDetalleService {
     }
 
     public List<PedidoDetalle> getDetallesByPedido(Long pedidoId) {
-        return repository.findByPedidoId(pedidoId);
+        return repository.findByPedido_PedidoId(pedidoId);
     }
 
     public PedidoDetalle addDetalle(PedidoDetalle detalle) {
+        return repository.save(detalle);
+    }
+    
+    public PedidoDetalle updateDetalle(Long id, PedidoDetalle datosNuevos) {
+        PedidoDetalle detalle = repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Detalle no encontrado"));
+        
+        detalle.setCantidad(datosNuevos.getCantidad());
+        detalle.setPrecioUnitario(datosNuevos.getPrecioUnitario());
+        
         return repository.save(detalle);
     }
 

@@ -9,6 +9,7 @@ import com.granoAndClick.granoAndClick.service.PedidoDetalleService;
 
 @RestController
 @RequestMapping(path = "/api/detalles-pedidos")
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class PedidoDetalleController {
 
     private final PedidoDetalleService detalleService;
@@ -31,6 +32,11 @@ public class PedidoDetalleController {
     @PostMapping
     public PedidoDetalle addDetalle(@RequestBody PedidoDetalle detalle) {
         return detalleService.addDetalle(detalle);
+    }
+    
+    @PutMapping("/{id}")
+    public PedidoDetalle updateDetalle(@PathVariable("id") Long id, @RequestBody PedidoDetalle detalle) {
+        return detalleService.updateDetalle(id, detalle);
     }
 
     @DeleteMapping("/{id}")

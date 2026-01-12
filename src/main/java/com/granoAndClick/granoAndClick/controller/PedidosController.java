@@ -10,6 +10,7 @@ import com.granoAndClick.granoAndClick.service.PedidoService;
 
 @RestController
 @RequestMapping(path = "/api/pedidos")
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class PedidosController {
 
     private final PedidoService pedidoService;
@@ -32,6 +33,11 @@ public class PedidosController {
     @PostMapping
     public Pedido createPedido(@RequestBody Pedido pedido) {
         return pedidoService.guardarPedido(pedido);
+    }
+    
+    @PutMapping("/{id}")
+    public Pedido updatePedido(@PathVariable("id") Long id, @RequestBody Pedido pedido) {
+        return pedidoService.actualizarPedido(id, pedido);
     }
 
     @DeleteMapping("/{id}")
