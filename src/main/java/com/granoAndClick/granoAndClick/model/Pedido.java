@@ -3,6 +3,7 @@ package com.granoAndClick.granoAndClick.model;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "pedidos")
@@ -11,25 +12,29 @@ public class Pedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "pedido_id", unique = true, nullable = false)
 	private Long pedidoId;
-
-	@Column(name = "usuario_id", unique = true, nullable = false)
-	private Long usuarioId;
+	
+	@ManyToOne
+	@JoinColumn(name = "usuario_id", nullable = false)
+	private Usuarios usuarioId;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fecha_pedido", unique = true, nullable = false)
+	@Column(name = "fecha_pedido", nullable = false)
 	private Date fechaPedido;
 
 	private String estado;
 
-	@Column(name = "costo_envio", unique = true, nullable = false)
+	@Column(name = "costo_envio", nullable = false)
 	private BigDecimal costoEnvio;
 
 	private BigDecimal total;
+	
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    private List<PedidoDetalle> detalles;
 
 	public Pedido() {
 	}
 
-	public Pedido(Long usuarioId, Date fechaPedido, String estado, BigDecimal costoEnvio, BigDecimal total) {
+	public Pedido(Usuarios usuarioId, Date fechaPedido, String estado, BigDecimal costoEnvio, BigDecimal total) {
 		this.usuarioId = usuarioId;
 		this.fechaPedido = fechaPedido;
 		this.estado = estado;
@@ -45,11 +50,11 @@ public class Pedido {
 		this.pedidoId = pedidoId;
 	}
 
-	public Long getUsuarioId() {
+	public Usuarios getUsuarioId() {
 		return usuarioId;
 	}
 
-	public void setUsuarioId(Long usuarioId) {
+	public void setUsuarioId(Usuarios usuarioId) {
 		this.usuarioId = usuarioId;
 	}
 
