@@ -34,8 +34,8 @@ public class Pedido {
 	public Pedido() {
 	}
 
-	public Pedido(Usuarios usuarioId, Date fechaPedido, String estado, BigDecimal costoEnvio, BigDecimal total) {
-		this.usuario = usuarioId;
+	public Pedido(Usuarios usuario, Date fechaPedido, String estado, BigDecimal costoEnvio, BigDecimal total) {
+		this.usuario = usuario;
 		this.fechaPedido = fechaPedido;
 		this.estado = estado;
 		this.costoEnvio = costoEnvio;
@@ -54,8 +54,8 @@ public class Pedido {
 		return usuario;
 	}
 
-	public void setUsuarioId(Usuarios usuarioId) {
-		this.usuario = usuarioId;
+	public void setUsuarioId(Usuarios usuario_id) {
+		this.usuario = usuario_id;
 	}
 
 	public Date getFechaPedido() {

@@ -35,20 +35,20 @@ public class PedidoDetalle {
 		this.detalleId = detalleId;
 	}
 
-	public Pedido getPedidoId() {
+	public Pedido getPedido() {
 		return pedido;
 	}
 
-	public void setPedidoId(Pedido pedidoId) {
-		this.pedido = pedidoId;
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
 	}
 
-	public Producto getProductoId() {
+	public Producto getProducto() {
 		return producto;
 	}
 
-	public void setProductoId(Producto productoId) {
-		this.producto = productoId;
+	public void setProducto(Producto producto) {
+		this.producto = producto;
 	}
 
 	public Integer getCantidad() {
@@ -72,5 +72,5 @@ public class PedidoDetalle {
 		return "PedidoDetalle [detalleId=" + detalleId + ", pedidoId=" + pedido + ", productoId=" + producto
 				+ ", cantidad=" + cantidad + ", precioUnitario=" + precioUnitario + "]";
 	}
-	
+
 }
