@@ -7,10 +7,13 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,7 +28,7 @@ public class Usuarios {
 	@Column(length = 70, nullable=false)
 	private String apellidos;// varchar 70
 	@Column(length = 100, nullable=false)
-	private String correo_electronico;// varchar 100
+	private String correo;// varchar 100
 	@Column(length = 10, nullable=false)
 	private String telefono;// varchar 10
 	@Column(length = 10,nullable=false)	
@@ -40,21 +43,23 @@ public class Usuarios {
 	private String codigo_postal;// varchar 5
 	@Column(length = 255,nullable=false)
 	private String contrasena;// varchar 255
-	@Column(length = 10,nullable=false)
-	private Long tipo_usuario_id;// INT
-
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="tipo_usuario_id", referencedColumnName="tipo_usuario_id") 
+	private TiposUsuarios tiposUsuario;
+	
 	@CreationTimestamp
 	@Column(length = 10,nullable=true,updatable = false)
 	private LocalDateTime fecha_registro;// TIMESTAMP
 	
 
-	public Usuarios(String nombres, String apellidos, String correo_electronico, String telefono,
+	public Usuarios(String nombres, String apellidos, String correo, String telefono,
 			LocalDate fecha_nacimiento, String calle_numero, String municipio, String colonia, String codigo_postal,
-			String contrasena, Long tipo_usuario_id, LocalDateTime fecha_registro) {
+			String contrasena, Long tipo_usuario_id, LocalDateTime fecha_registro, TiposUsuarios tiposUsuario) {
 		super();
 		this.nombres = nombres;
 		this.apellidos = apellidos;
-		this.correo_electronico = correo_electronico;
+		this.correo = correo;
 		this.telefono = telefono;
 		this.fecha_nacimiento = fecha_nacimiento;
 		this.calle_numero = calle_numero;
@@ -62,12 +67,12 @@ public class Usuarios {
 		this.colonia = colonia;
 		this.codigo_postal = codigo_postal;
 		this.contrasena = contrasena;
-		this.tipo_usuario_id = tipo_usuario_id;
+		this.tiposUsuario = tiposUsuario;
 		this.fecha_registro = fecha_registro;
 	}
 	
 	public Usuarios() {
-		super();
+		
 	}
 
 	public String getNombres() {
@@ -86,12 +91,12 @@ public class Usuarios {
 		this.apellidos = apellidos;
 	}
 
-	public String getCorreo_electronico() {
-		return correo_electronico;
+	public String getCorreo() {
+		return correo;
 	}
 
-	public void setCorreo_electronico(String correo_electronico) {
-		this.correo_electronico = correo_electronico;
+	public void setCorreo(String correo) {
+		this.correo = correo;
 	}
 
 	public String getTelefono() {
@@ -150,12 +155,12 @@ public class Usuarios {
 		this.contrasena = contrasena;
 	}
 
-	public Long getTipo_usuario_id() {
-		return tipo_usuario_id;
+	public TiposUsuarios getTiposUsuario() {
+		return tiposUsuario;
 	}
 
-	public void setTipo_usuario_id(Long tipo_usuario_id) {
-		this.tipo_usuario_id = tipo_usuario_id;
+	public void setTipoUsuario(TiposUsuarios tiposUsuario) {
+		this.tiposUsuario = tiposUsuario;
 	}
 
 	public LocalDateTime getFecha_registro() {
@@ -166,13 +171,25 @@ public class Usuarios {
 		this.fecha_registro = fecha_registro;
 	}
 
+	public Long getUsuario_id() {
+		return usuario_id;
+	}
+
+	public void setUsuario_id(Long usuario_id) {
+		this.usuario_id = usuario_id;
+	}
+
+	public TiposUsuarios getTiposUuario() {
+		return tiposUsuario;
+	}
+
 	@Override
 	public String toString() {
-		return "Usuarios [nombres=" + nombres + ", apellidos=" + apellidos + ", correo_electronico="
-				+ correo_electronico + ", telefono=" + telefono + ", fecha_nacimiento=" + fecha_nacimiento
+		return "Usuarios [nombres=" + nombres + ", apellidos=" + apellidos + ", correo="
+				+ correo + ", telefono=" + telefono + ", fecha_nacimiento=" + fecha_nacimiento
 				+ ", calle_numero=" + calle_numero + ", municipio=" + municipio + ", colonia=" + colonia
 				+ ", codigo_postal=" + codigo_postal + ", contrasena=" + contrasena + ", tipo_usuario_id="
-				+ tipo_usuario_id + ", fecha_registro=" + fecha_registro + "]";
+				+ tiposUsuario + ", fecha_registro=" + fecha_registro + "]";
 	}
 	
 	
