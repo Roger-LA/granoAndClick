@@ -40,6 +40,10 @@ public class TiposUsuariosController {
 	public List<TiposUsuarios> getAllTiposUsuarios() {
 	    return service.getAllTiposUsuarios();
 	}
+	@GetMapping("{tipoId}")
+	public TiposUsuarios geTiposUsuarios(@PathVariable("tipoId") Long id) {
+	    return service.getTiposUsuarios(id);
+	}
 	
 	@DeleteMapping(path = "{tipoUsuarioId}")
 	public TiposUsuarios deleteCategoria(@PathVariable("tipoUsuarioId") Long id) {

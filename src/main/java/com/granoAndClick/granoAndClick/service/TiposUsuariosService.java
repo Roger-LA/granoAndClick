@@ -3,6 +3,7 @@ package com.granoAndClick.granoAndClick.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.query.NativeQuery.ReturnableResultNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,8 @@ public class TiposUsuariosService {
 		return repository.findAll();
 
 	}
+	
+	
 
 	public TiposUsuarios deleteTiposUsuarios(Long id) {
 		TiposUsuarios tipos = null;
@@ -55,9 +58,10 @@ public class TiposUsuariosService {
 	    return tipos;
 	}
 
-	public TiposUsuarios getTiposUsuarios() {
-		// TODO Auto-generated method stub
-		return null;
+	public TiposUsuarios getTiposUsuarios(Long id) {
+		return repository.findById(id).orElseThrow(
+				()-> new IllegalArgumentException("El tipo usario  con el id "+id+" no existe")
+				);
 	}
 
 }
