@@ -3,34 +3,39 @@ package com.granoAndClick.granoAndClick.model;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "pedidos")
 public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "pedido_id", unique = true, nullable = false)
+	@Column(name = "pedido_id")
 	private Long pedidoId;
-
-	@Column(name = "usuario_id", unique = true, nullable = false)
-	private Long usuarioId;
+	
+	@ManyToOne
+	@JoinColumn(name = "usuario_id", nullable = false)
+	private Usuarios usuario;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "fecha_pedido", unique = true, nullable = false)
+	@Column(name = "fecha_pedido", nullable = false)
 	private Date fechaPedido;
 
 	private String estado;
 
-	@Column(name = "costo_envio", unique = true, nullable = false)
+	@Column(name = "costo_envio", nullable = false)
 	private BigDecimal costoEnvio;
 
 	private BigDecimal total;
+	
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    private List<PedidoDetalle> detalles;
 
 	public Pedido() {
 	}
 
-	public Pedido(Long usuarioId, Date fechaPedido, String estado, BigDecimal costoEnvio, BigDecimal total) {
-		this.usuarioId = usuarioId;
+	public Pedido(Usuarios usuario, Date fechaPedido, String estado, BigDecimal costoEnvio, BigDecimal total) {
+		this.usuario = usuario;
 		this.fechaPedido = fechaPedido;
 		this.estado = estado;
 		this.costoEnvio = costoEnvio;
@@ -45,12 +50,12 @@ public class Pedido {
 		this.pedidoId = pedidoId;
 	}
 
-	public Long getUsuarioId() {
-		return usuarioId;
+	public Usuarios getUsuarioId() {
+		return usuario;
 	}
 
-	public void setUsuarioId(Long usuarioId) {
-		this.usuarioId = usuarioId;
+	public void setUsuarioId(Usuarios usuario_id) {
+		this.usuario = usuario_id;
 	}
 
 	public Date getFechaPedido() {
@@ -87,6 +92,6 @@ public class Pedido {
 
 	@Override
 	public String toString() {
-		return "Pedido [id=" + pedidoId + ", usuario=" + usuarioId + ", total=" + total + "]";
+		return "Pedido [id=" + pedidoId + ", usuario=" + usuario + ", total=" + total + "]";
 	}
 }
