@@ -1,24 +1,14 @@
 package com.granoAndClick.granoAndClick.model;
 
-import jakarta.persistence.Entity;
-
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import org.hibernate.annotations.CreationTimestamp;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-
 @Entity
-@Table(name="usuarios")
+@Table(name = "usuarios")
 public class Usuarios {
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="usuario_id", unique=true, nullable=false)
@@ -56,7 +46,6 @@ public class Usuarios {
 	public Usuarios(Long usuarioId, String nombres, String apellidos, String correo, String telefono,
 			LocalDate fechaNacimiento, String calleNumero, String municipio, String colonia, String codigoPostal,
 			String contrasena, TiposUsuarios tiposUsuario, LocalDateTime fechaRegistro,String subindice) {
-		super();
 		this.usuarioId = usuarioId;
 		this.nombres = nombres;
 		this.apellidos = apellidos;
@@ -74,7 +63,15 @@ public class Usuarios {
 		}
 
 	public Usuarios() {
-		
+
+	}
+
+	public Long getUsuarioId() {
+		return usuarioId;
+	}
+
+	public void setUsuarioId(Long usuarioId) {
+		this.usuarioId = usuarioId;
 	}
 
 	public String getNombres() {
@@ -109,51 +106,6 @@ public class Usuarios {
 		this.telefono = telefono;
 	}
 
-	public String getMunicipio() {
-		return municipio;
-	}
-
-	public void setMunicipio(String municipio) {
-		this.municipio = municipio;
-	}
-
-	public String getColonia() {
-		return colonia;
-	}
-
-	public void setColonia(String colonia) {
-		this.colonia = colonia;
-	}
-
-
-	public String getContrasena() {
-		return contrasena;
-	}
-
-	public void setContrasena(String contrasena) {
-		this.contrasena = contrasena;
-	}
-
-	public TiposUsuarios getTiposUsuario() {
-		return tiposUsuario;
-	}
-
-	public void setTipoUsuario(TiposUsuarios tiposUsuario) {
-		this.tiposUsuario = tiposUsuario;
-	}
-
-	public Long getUsuarioId() {
-		return usuarioId;
-	}
-
-	public void setUsuarioId(Long usuarioId) {
-		this.usuarioId = usuarioId;
-	}
-
-	public TiposUsuarios getTiposUuario() {
-		return tiposUsuario;
-	}
-
 	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
@@ -170,6 +122,22 @@ public class Usuarios {
 		this.calleNumero = calleNumero;
 	}
 
+	public String getMunicipio() {
+		return municipio;
+	}
+
+	public void setMunicipio(String municipio) {
+		this.municipio = municipio;
+	}
+
+	public String getColonia() {
+		return colonia;
+	}
+
+	public void setColonia(String colonia) {
+		this.colonia = colonia;
+	}
+
 	public String getCodigoPostal() {
 		return codigoPostal;
 	}
@@ -178,16 +146,28 @@ public class Usuarios {
 		this.codigoPostal = codigoPostal;
 	}
 
+	public String getContrasena() {
+		return contrasena;
+	}
+
+	public void setContrasena(String contrasena) {
+		this.contrasena = contrasena;
+	}
+
+	public TiposUsuarios getTiposUsuario() {
+		return tiposUsuario;
+	}
+
+	public void setTiposUsuario(TiposUsuarios tiposUsuario) {
+		this.tiposUsuario = tiposUsuario;
+	}
+
 	public LocalDateTime getFechaRegistro() {
 		return fechaRegistro;
 	}
 
 	public void setFechaRegistro(LocalDateTime fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
-	}
-
-	public void setTiposUsuario(TiposUsuarios tiposUsuario) {
-		this.tiposUsuario = tiposUsuario;
 	}
 
 	public String getSubindice() {
@@ -207,7 +187,4 @@ public class Usuarios {
 				+ ", fechaRegistro=" + fechaRegistro + "]";
 	}
 
-
-
-	
 }

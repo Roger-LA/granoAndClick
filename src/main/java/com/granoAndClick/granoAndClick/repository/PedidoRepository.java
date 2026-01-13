@@ -7,6 +7,5 @@ import com.granoAndClick.granoAndClick.model.Pedido;
 
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
-    
-    List<Pedido> findByUsuarioId(Long usuarioId);
+	List<Pedido> findByUsuario_UsuarioId(Long usuarioId);
 }

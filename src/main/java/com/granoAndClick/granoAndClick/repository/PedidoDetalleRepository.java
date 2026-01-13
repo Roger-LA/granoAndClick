@@ -7,6 +7,5 @@ import com.granoAndClick.granoAndClick.model.PedidoDetalle;
 
 @Repository
 public interface PedidoDetalleRepository extends JpaRepository<PedidoDetalle, Long> {
-    
-    List<PedidoDetalle> findByPedidoId(Long pedidoId);
+    List<PedidoDetalle> findByPedido_PedidoId(Long pedidoId);
 }
