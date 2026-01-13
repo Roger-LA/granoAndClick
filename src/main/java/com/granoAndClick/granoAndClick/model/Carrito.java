@@ -1,5 +1,9 @@
 package com.granoAndClick.granoAndClick.model;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -8,25 +12,34 @@ public class Carrito {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "carrito_id", unique = true, nullable = false)
     private Long id;
-
-    private String nombreProducto;
-    private Double precio;
-    private Integer cantidad;
-    private Double total;
+    @Column(name = "usuario_id")
+    private Integer usuarioId;
+    @Column(name = "costo_envio", precision = 5, scale = 2)
+    private java.math.BigDecimal costoEnvio;
+    @Column(name = "total", precision = 9, scale = 2)
+    private BigDecimal total;
+    @Column(name = "fecha_agregado")
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date fechaAgregado;
+    @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL)
+    private List<CarritoDetalle> carritoDetalles;
+    //@ManyToOne
+    //@JoinColumn(name = "usario_id")
+    //private Usuarios usuario;
 
     public Carrito() {
     }
 
-    public Carrito(Long id, String nombreProducto, Double precio, Integer cantidad, Double total) {
-        this.id = id;
-        this.nombreProducto = nombreProducto;
-        this.precio = precio;
-        this.cantidad = cantidad;
-        this.total = total;
-    }
+    public Carrito(Long id, BigDecimal costoEnvio, BigDecimal total, Date fechaAgregado) {
+    	this.id = id;
+		this.costoEnvio = costoEnvio;
+		this.total = total;
+		this.fechaAgregado = fechaAgregado;
+	}
 
-    public Long getId() {
+	public Long getId() {
         return id;
     }
 
@@ -34,42 +47,34 @@ public class Carrito {
         this.id = id;
     }
 
-    public String getNombreProducto() {
-        return nombreProducto;
-    }
+	public java.math.BigDecimal getCostoEnvio() {
+		return costoEnvio;
+	}
 
-    public void setNombreProducto(String nombreProducto) {
-        this.nombreProducto = nombreProducto;
-    }
+	public void setCostoEnvio(java.math.BigDecimal costoEnvio) {
+		this.costoEnvio = costoEnvio;
+	}
 
-    public Double getPrecio() {
-        return precio;
-    }
+	public BigDecimal getTotal() {
+		return total;
+	}
 
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
+	public void setTotal(BigDecimal total) {
+		this.total = total;
+	}
 
-    public Integer getCantidad() {
-        return cantidad;
-    }
+	public java.util.Date getFechaAgregado() {
+		return fechaAgregado;
+	}
 
-    public void setCantidad(Integer cantidad) {
-        this.cantidad = cantidad;
-    }
+	public void setFechaAgregado(java.util.Date fechaAgregado) {
+		this.fechaAgregado = fechaAgregado;
+	}
 
-    public Double getTotal() {
-        return total;
-    }
+	@Override
+	public String toString() {
+		return "Carrito [id=" + id + ", costoEnvio=" + costoEnvio + ", total=" + total + ", fechaAgregado="
+				+ fechaAgregado + "]";
+	}
 
-    public void setTotal(Double total) {
-        this.total = total;
-    }
-
-    @Override
-    public String toString() {
-        return "Carrito [id=" + id + ", nombreProducto=" + nombreProducto +
-               ", precio=" + precio + ", cantidad=" + cantidad +
-               ", total=" + total + "]";
-    }
 }
