@@ -22,7 +22,7 @@ public class Usuarios {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="usuario_id", unique=true, nullable=false)
-	private Long usuario_id;
+	private Long usuarioId;
 	@Column(length = 70, nullable=false)
 	private String nombres;// varchar 70
 	@Column(length = 70, nullable=false)
@@ -32,45 +32,47 @@ public class Usuarios {
 	@Column(length = 10, nullable=false)
 	private String telefono;// varchar 10
 	@Column(length = 10,nullable=false)	
-	private LocalDate fecha_nacimiento;// DATE
+	private LocalDate fechaNacimiento;// DATE
 	@Column(length = 70,nullable=false)
-	private String calle_numero;// varchar 70
+	private String calleNumero;// varchar 70
 	@Column(length = 100, nullable=false)
 	private String municipio;// varchar 100
 	@Column(length = 100, nullable=false)
 	private String colonia;// varchar 100
 	@Column(length = 5, nullable=false)
-	private String codigo_postal;// varchar 5
+	private String codigoPostal;// varchar 5
 	@Column(length = 255,nullable=false)
 	private String contrasena;// varchar 255
-	
+	@Column(length = 255,nullable=false)
+	private String subindice;
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="tipo_usuario_id", referencedColumnName="tipo_usuario_id") 
 	private TiposUsuarios tiposUsuario;
 	
 	@CreationTimestamp
 	@Column(length = 10,nullable=true,updatable = false)
-	private LocalDateTime fecha_registro;// TIMESTAMP
+	private LocalDateTime fechaRegistro;// TIMESTAMP
 	
-
-	public Usuarios(String nombres, String apellidos, String correo, String telefono,
-			LocalDate fecha_nacimiento, String calle_numero, String municipio, String colonia, String codigo_postal,
-			String contrasena, Long tipo_usuario_id, LocalDateTime fecha_registro, TiposUsuarios tiposUsuario) {
+	public Usuarios(Long usuarioId, String nombres, String apellidos, String correo, String telefono,
+			LocalDate fechaNacimiento, String calleNumero, String municipio, String colonia, String codigoPostal,
+			String contrasena, TiposUsuarios tiposUsuario, LocalDateTime fechaRegistro,String subindice) {
 		super();
+		this.usuarioId = usuarioId;
 		this.nombres = nombres;
 		this.apellidos = apellidos;
 		this.correo = correo;
 		this.telefono = telefono;
-		this.fecha_nacimiento = fecha_nacimiento;
-		this.calle_numero = calle_numero;
+		this.fechaNacimiento = fechaNacimiento;
+		this.calleNumero = calleNumero;
 		this.municipio = municipio;
 		this.colonia = colonia;
-		this.codigo_postal = codigo_postal;
+		this.codigoPostal = codigoPostal;
 		this.contrasena = contrasena;
 		this.tiposUsuario = tiposUsuario;
-		this.fecha_registro = fecha_registro;
-	}
-	
+		this.fechaRegistro = fechaRegistro;
+		this.subindice = subindice;	
+		}
+
 	public Usuarios() {
 		
 	}
@@ -107,22 +109,6 @@ public class Usuarios {
 		this.telefono = telefono;
 	}
 
-	public LocalDate getFecha_nacimiento() {
-		return fecha_nacimiento;
-	}
-
-	public void setFecha_nacimiento(LocalDate fecha_nacimiento) {
-		this.fecha_nacimiento = fecha_nacimiento;
-	}
-
-	public String getCalle_numero() {
-		return calle_numero;
-	}
-
-	public void setCalle_numero(String calle_numero) {
-		this.calle_numero = calle_numero;
-	}
-
 	public String getMunicipio() {
 		return municipio;
 	}
@@ -139,13 +125,6 @@ public class Usuarios {
 		this.colonia = colonia;
 	}
 
-	public String getCodigo_postal() {
-		return codigo_postal;
-	}
-
-	public void setCodigo_postal(String codigo_postal) {
-		this.codigo_postal = codigo_postal;
-	}
 
 	public String getContrasena() {
 		return contrasena;
@@ -163,34 +142,72 @@ public class Usuarios {
 		this.tiposUsuario = tiposUsuario;
 	}
 
-	public LocalDateTime getFecha_registro() {
-		return fecha_registro;
+	public Long getUsuarioId() {
+		return usuarioId;
 	}
 
-	public void setFecha_registro(LocalDateTime fecha_registro) {
-		this.fecha_registro = fecha_registro;
-	}
-
-	public Long getUsuario_id() {
-		return usuario_id;
-	}
-
-	public void setUsuario_id(Long usuario_id) {
-		this.usuario_id = usuario_id;
+	public void setUsuarioId(Long usuarioId) {
+		this.usuarioId = usuarioId;
 	}
 
 	public TiposUsuarios getTiposUuario() {
 		return tiposUsuario;
 	}
 
+	public LocalDate getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public String getCalleNumero() {
+		return calleNumero;
+	}
+
+	public void setCalleNumero(String calleNumero) {
+		this.calleNumero = calleNumero;
+	}
+
+	public String getCodigoPostal() {
+		return codigoPostal;
+	}
+
+	public void setCodigoPostal(String codigoPostal) {
+		this.codigoPostal = codigoPostal;
+	}
+
+	public LocalDateTime getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+	public void setFechaRegistro(LocalDateTime fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
+	public void setTiposUsuario(TiposUsuarios tiposUsuario) {
+		this.tiposUsuario = tiposUsuario;
+	}
+
+	public String getSubindice() {
+		return subindice;
+	}
+
+	public void setSubindice(String subindice) {
+		this.subindice = subindice;
+	}
+
 	@Override
 	public String toString() {
-		return "Usuarios [nombres=" + nombres + ", apellidos=" + apellidos + ", correo="
-				+ correo + ", telefono=" + telefono + ", fecha_nacimiento=" + fecha_nacimiento
-				+ ", calle_numero=" + calle_numero + ", municipio=" + municipio + ", colonia=" + colonia
-				+ ", codigo_postal=" + codigo_postal + ", contrasena=" + contrasena + ", tipo_usuario_id="
-				+ tiposUsuario + ", fecha_registro=" + fecha_registro + "]";
+		return "Usuarios [usuarioId=" + usuarioId + ", nombres=" + nombres + ", apellidos=" + apellidos + ", correo="
+				+ correo + ", telefono=" + telefono + ", fechaNacimiento=" + fechaNacimiento + ", calleNumero="
+				+ calleNumero + ", municipio=" + municipio + ", colonia=" + colonia + ", codigoPostal=" + codigoPostal
+				+ ", contrasena=" + contrasena + ", subindice=" + subindice + ", tiposUsuario=" + tiposUsuario
+				+ ", fechaRegistro=" + fechaRegistro + "]";
 	}
-	
+
+
+
 	
 }
