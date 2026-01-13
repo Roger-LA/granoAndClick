@@ -36,9 +36,9 @@ public class Producto {
 	@OneToMany(mappedBy = "producto")
 	@JsonIgnore 
 	private List<CarritoDetalle> carritoDetalles;
-	//@OneToMany(mappedBy = "producto")
-	//@JsonIgnore
-	//private List<PedidoDetalle> pedidoDetalles;
+	@OneToMany(mappedBy = "producto")
+	@JsonIgnore
+	private List<PedidoDetalle> pedidoDetalles;
 	
 	public Producto(String subindice, String categoria, String nombre, String descripcion, Double precio,
 			String imagen_url, Boolean activo) {
