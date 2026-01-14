@@ -44,7 +44,7 @@ public class Usuarios {
 	@Column(length = 255, nullable = false)
 	private String contrasena;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "tipo_usuario_id", referencedColumnName = "tipo_usuario_id")
 	private TiposUsuarios tiposUsuario;
 

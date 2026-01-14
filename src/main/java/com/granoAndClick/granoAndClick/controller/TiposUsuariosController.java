@@ -21,7 +21,7 @@ import com.granoAndClick.granoAndClick.service.TiposUsuariosService;
 @RestController
 @RequestMapping("/api/tiposUsuarios/")
 @CrossOrigin(
-	    origins = "https://roger-la.github.io",
+	    origins = "*",
 	    		methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT,RequestMethod.DELETE,RequestMethod.OPTIONS}
 	)
 
