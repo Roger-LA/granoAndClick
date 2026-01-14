@@ -36,12 +36,10 @@ public class UsuariosService {
 	}
 	
 	public Usuarios addUsuarios(RegistrarUsuarioDTO dto) {
-	    // Verificar si ya existe un usuario con el mismo correo
 	    if (usuarioRep.findByCorreo(dto.getCorreo()).isPresent()) {
 	        return null; // correo ya registrado
 	    }
 
-	    // Validar que la contraseña no sea nula o vacía
 	    if (dto.getContrasena() == null || dto.getContrasena().isBlank()) {
 	        throw new IllegalArgumentException("La contraseña no puede ser nula o vacía");
 	    }
@@ -50,7 +48,7 @@ public class UsuariosService {
 	            .orElseThrow(() -> new IllegalArgumentException("Tipo de usuario inválido"));
 
 	    Usuarios usuario = new Usuarios(
-	        dto.getNombres(),
+	         dto.getNombres(),
 	        dto.getApellidos(),
 	        dto.getCorreo(),
 	        dto.getTelefono(),
@@ -60,9 +58,9 @@ public class UsuariosService {
 	        dto.getColonia(),
 	        dto.getCodigoPostal(),
 	        encoder.encode(dto.getContrasena()), 
-	        tipo
+	        tipo,null
 	    );
-
+	    usuario.setSubindice(dto.getTipoUsuarioId());
 	    return usuarioRep.saveAndFlush(usuario);
 	}
 

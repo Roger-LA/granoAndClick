@@ -14,8 +14,9 @@ public class CarritoDetalle {
 	@Column(name = "carrito_id", unique = true, nullable = false)
 	private Long carritoId;
 
-	@Column(name = "producto_id", unique = true, nullable = false)
-	private Long productoId;
+	 @ManyToOne // Relación con Producto
+	    @JoinColumn(name = "producto_id", nullable = false)
+	    private Producto producto; // Cambiado de Long a Producto
 
 	private Integer cantidad;
 
@@ -41,14 +42,7 @@ public class CarritoDetalle {
 		this.carritoId = carritoId;
 	}
 
-	public Long getProductoId() {
-		return productoId;
-	}
-
-	public void setProductoId(Long productoId) {
-		this.productoId = productoId;
-	}
-
+	
 	public Integer getCantidad() {
 		return cantidad;
 	}
@@ -63,5 +57,13 @@ public class CarritoDetalle {
 
 	public void setSubtotal(BigDecimal subtotal) {
 		this.subtotal = subtotal;
+	}
+
+	public Producto getProducto() {
+		return producto;
+	}
+
+	public void setProducto(Producto producto) {
+		this.producto = producto;
 	}
 }

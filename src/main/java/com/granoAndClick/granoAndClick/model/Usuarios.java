@@ -10,54 +10,43 @@ import org.hibernate.annotations.CreationTimestamp;
 public class Usuarios {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "usuario_id", unique = true, nullable = false)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="usuario_id", unique=true, nullable=false)
 	private Long usuarioId;
 
-	@Column(length = 70, nullable = false)
-	private String nombres;
-
-	@Column(length = 70, nullable = false)
-	private String apellidos;
-
-	@Column(length = 100, nullable = false)
-	private String correo;
-
-	@Column(length = 10, nullable = false)
-	private String telefono;
-
-	@Column(name = "fecha_nacimiento", nullable = false)
-	private LocalDate fechaNacimiento;
-
-	@Column(name = "calle_numero", length = 70, nullable = false)
-	private String calleNumero;
-
-	@Column(length = 100, nullable = false)
-	private String municipio;
-
-	@Column(length = 100, nullable = false)
-	private String colonia;
-
-	@Column(name = "codigo_postal", length = 5, nullable = false)
-	private String codigoPostal;
-
-	@Column(length = 255, nullable = false)
-	private String contrasena;
-
+	@Column(length = 70, nullable=false)
+	private String nombres;// varchar 70
+	@Column(length = 70, nullable=false)
+	private String apellidos;// varchar 70
+	@Column(length = 100, nullable=false)
+	private String correo;// varchar 100
+	@Column(length = 10, nullable=false)
+	private String telefono;// varchar 10
+	@Column(length = 10,nullable=false)	
+	private LocalDate fechaNacimiento;// DATE
+	@Column(length = 70,nullable=false)
+	private String calleNumero;// varchar 70
+	@Column(length = 100, nullable=false)
+	private String municipio;// varchar 100
+	@Column(length = 100, nullable=false)
+	private String colonia;// varchar 100
+	@Column(length = 5, nullable=false)
+	private String codigoPostal;// varchar 5
+	@Column(length = 255,nullable=false)
+	private String contrasena;// varchar 255
+	@Column(length = 255,nullable=true)
+	private String subindice;
 	@ManyToOne()
 	@JoinColumn(name = "tipo_usuario_id", referencedColumnName = "tipo_usuario_id")
 	private TiposUsuarios tiposUsuario;
-
+	
 	@CreationTimestamp
-	@Column(name = "fecha_registro", updatable = false)
-	private LocalDateTime fechaRegistro;
-
-	public Usuarios() {
-	}
-
-	public Usuarios(String nombres, String apellidos, String correo, String telefono, LocalDate fechaNacimiento,
-			String calleNumero, String municipio, String colonia, String codigoPostal, String contrasena,
-			TiposUsuarios tiposUsuario) {
+	@Column(length = 10,nullable=true,updatable = false)
+	private LocalDateTime fechaRegistro;// TIMESTAMP
+	
+	public Usuarios(String nombres, String apellidos, String correo, String telefono,
+			LocalDate fechaNacimiento, String calleNumero, String municipio, String colonia, String codigoPostal,
+			String contrasena, TiposUsuarios tiposUsuario, LocalDateTime fechaRegistro) {
 		this.nombres = nombres;
 		this.apellidos = apellidos;
 		this.correo = correo;
@@ -69,6 +58,12 @@ public class Usuarios {
 		this.codigoPostal = codigoPostal;
 		this.contrasena = contrasena;
 		this.tiposUsuario = tiposUsuario;
+		this.fechaRegistro = fechaRegistro;
+		setSubindice(this.tiposUsuario.getId());
+		}
+
+	public Usuarios() {
+
 	}
 
 	public Long getUsuarioId() {
@@ -175,8 +170,28 @@ public class Usuarios {
 		this.fechaRegistro = fechaRegistro;
 	}
 
+	public String getSubindice() {
+		return subindice;
+	}
+
+	public void setSubindice(Long tipos) {
+	    if (tipos != null 
+	        && tipos != null 
+	        && tipos == 1L) {
+	        this.subindice = "Ad";
+	    } else {
+	        this.subindice = "Client";
+	    }
+	}
+
+
 	@Override
 	public String toString() {
-		return "Usuarios [usuarioId=" + usuarioId + ", nombres=" + nombres + ", correo=" + correo + "]";
+		return "Usuarios [usuarioId=" + usuarioId + ", nombres=" + nombres + ", apellidos=" + apellidos + ", correo="
+				+ correo + ", telefono=" + telefono + ", fechaNacimiento=" + fechaNacimiento + ", calleNumero="
+				+ calleNumero + ", municipio=" + municipio + ", colonia=" + colonia + ", codigoPostal=" + codigoPostal
+				+ ", contrasena=" + contrasena + ", subindice=" + subindice + ", tiposUsuario=" + tiposUsuario
+				+ ", fechaRegistro=" + fechaRegistro + "]";
 	}
+
 }

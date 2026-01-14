@@ -18,6 +18,7 @@ public class RegistrarUsuarioDTO {
     private String colonia;
     private String codigoPostal;
     private String contrasena;
+    private String subindice;
 
     private Long tipoUsuarioId;
 
@@ -56,4 +57,10 @@ public class RegistrarUsuarioDTO {
 
     public Long getTipoUsuarioId() { return tipoUsuarioId; }
     public void setTipoUsuarioId(Long tipoUsuarioId) { this.tipoUsuarioId = tipoUsuarioId; }
+
+
+	public String getSubindice() {return subindice;	}
+
+
+	public void setSubindice(String subindice) {		this.subindice = subindice;	}
 }
