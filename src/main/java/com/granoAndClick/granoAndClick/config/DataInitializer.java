@@ -54,7 +54,7 @@ public class DataInitializer {
                 admin.setCodigoPostal(codigoPostal);
                 admin.setContrasena(encoder.encode(password));
                 admin.setTiposUsuario(adminTipo);
-
+                admin.setSubindice(adminTipo.getId());
                 usuarioRep.save(admin);
                 System.out.println("Usuario admin creado");
             }
