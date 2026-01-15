@@ -40,7 +40,7 @@ public class PedidoService {
 		Pedido pedido = new Pedido();
 		pedido.setUsuario(usuario);
 		pedido.setFechaPedido(new Date());
-		pedido.setEstado(dto.getEstado() != null ? dto.getEstado() : "PENDIENTE");
+		pedido.setEstado(dto.getEstado());
 		pedido.setCostoEnvio(dto.getCostoEnvio());
 
 		List<PedidoDetalle> detalles = new ArrayList<>();
@@ -104,6 +104,7 @@ public class PedidoService {
 
 		List<PedidoDetalleDTO> detallesDTO = pedido.getDetalles().stream().map(d -> {
 			PedidoDetalleDTO detDto = new PedidoDetalleDTO();
+			detDto.setPedidoId(pedido.getPedidoId());
 			detDto.setProductoId(d.getProducto().getId());
 			detDto.setNombreProducto(d.getProducto().getNombre());
 			detDto.setCantidad(d.getCantidad());

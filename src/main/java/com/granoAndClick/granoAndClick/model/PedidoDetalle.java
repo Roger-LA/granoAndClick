@@ -12,11 +12,11 @@ public class PedidoDetalle {
 	private Long detalleId;
 
 	@ManyToOne
-	@JoinColumn(name = "pedido_id", nullable = false)
+	@JoinColumn(name = "pedido_id", nullable = false, unique = false)
 	private Pedido pedido;
 
 	@ManyToOne
-	@JoinColumn(name = "producto_id", nullable = false)
+	@JoinColumn(name = "producto_id", nullable = false, unique = false)
 	private Producto producto;
 
 	@Column(name = "cantidad", nullable = false)

@@ -21,8 +21,11 @@ public class Pedido {
 	@Column(name = "fecha_pedido", nullable = false)
 	private Date fechaPedido;
 
-	@Column(name = "estado", nullable = false)
-	private String estado;
+	@Enumerated(EnumType.STRING) 
+	@Column(nullable = false) 
+	private Estado estado;
+	
+	public enum Estado { pagado, recibido, preparando, en_camino, entregado, cancelado }
 
 	@Column(name = "costo_envio", nullable = false, precision = 5, scale = 2)
 	private BigDecimal costoEnvio;
@@ -34,6 +37,7 @@ public class Pedido {
 	private List<PedidoDetalle> detalles;
 
 	public Pedido() {
+		this.estado = Estado.preparando;
 	}
 
 	public void calcularTotal() {
@@ -76,11 +80,11 @@ public class Pedido {
 		this.fechaPedido = fechaPedido;
 	}
 
-	public String getEstado() {
+	public Estado getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
 
