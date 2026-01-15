@@ -29,22 +29,22 @@ public class ProductoController {
 		this.service = service;
 	}//constructor
 	
-	@GetMapping("/productos/")
+	@GetMapping
 		public List<Producto> getProductos(){
 			return service.getProductos();
 	}//getProductos
 	
-	@GetMapping("/productos/{prodid}")
+	@GetMapping("{prodid}")
 	public Producto getProducto(@PathVariable("prodid")long id){
 		return service.getProducto(id);
 }//getProducto
 	
-	@PostMapping("/productos/")
+	@PostMapping
 	public Producto addProducto(@RequestBody Producto producto) {
 		return service.addProducto(producto);
 	}//addProducto
 	
-	@DeleteMapping("/productos/{prodid}")
+	@DeleteMapping("{prodid}")
 	public Producto deleteProducto(@PathVariable("prodid") long id) {
 		return service.deleteProducto(id);
 	}//deleteProducto

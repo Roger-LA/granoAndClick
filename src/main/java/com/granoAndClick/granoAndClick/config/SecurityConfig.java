@@ -4,9 +4,9 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 import java.security.Key;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,38 +20,45 @@ import io.jsonwebtoken.security.Keys;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-	
-	private final Key jwtKey;
-	public SecurityConfig() { 
-	
-		Dotenv dotenv = Dotenv.load(); 
-		String secret = dotenv.get("JWT_SECRET"); 
-		this.jwtKey = Keys.hmacShaKeyFor(secret.getBytes()); 
-		}
-	
-	@Bean
-	public SecurityFilterChain configure(HttpSecurity http) throws Exception {
-	    return http
-	    		.csrf(csrf -> csrf.disable())
-	    		.authorizeHttpRequests(auth -> auth
-	    				.requestMatchers("/api/login/**").permitAll() 
-	    				.requestMatchers("/api/usuarios").permitAll() // registro normal abierto 
-	    				.anyRequest().authenticated() // todo lo demás requiere token
-	    				) 
-	    				// Integrar el filtro JWT antes del filtro estándar 
-	    				.addFilterBefore(new JwtFilter(jwtKey), UsernamePasswordAuthenticationFilter.class) 
-	    				.httpBasic(withDefaults()) 
-	    				.build();
-	}//Configure
-	
-	@Bean
-	public PasswordEncoder encoder() {
-		return new BCryptPasswordEncoder();
-	}//Encoder
-	
-	@Bean public Key jwtKey() { 
-		return this.jwtKey; 
-		}
-	
 
+    private final Key jwtKey;
+
+    public SecurityConfig() {
+        Dotenv dotenv = Dotenv.load();
+        String secret = dotenv.get("JWT_SECRET");
+        if (secret == null || secret.length() < 32) {
+            throw new IllegalStateException("JWT_SECRET no definido o demasiado corto");
+        }
+        this.jwtKey = Keys.hmacShaKeyFor(secret.getBytes());
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        // rutas públicas
+                		.requestMatchers(HttpMethod.POST, "/api/login").permitAll() 
+                		.requestMatchers("/api/login").authenticated()
+                		.requestMatchers(HttpMethod.POST,"/api/usuarios").permitAll()
+                		.requestMatchers("/api/usuarios").authenticated()
+
+                        // todo lo demás requiere token
+                        .anyRequest().authenticated()
+                )
+                // integrar el filtro JWT
+                .addFilterBefore(new JwtFilter(jwtKey), UsernamePasswordAuthenticationFilter.class)
+                .httpBasic(withDefaults())
+                .build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public Key jwtKey() {
+        return this.jwtKey;
+    }
 }

@@ -30,7 +30,7 @@ public class UsuariosService {
 	public List<Usuarios> getUsuarios() {
 		return usuarioRep.findAll();
 	}
-	public Usuarios getUsuario(long id) {
+	public Usuarios getUsuario(Long id) {
 		return usuarioRep.findById(id).orElseThrow(
 		() -> new IllegalArgumentException("El usuario con id ["+ id +"], no existe"));
 	}
@@ -65,7 +65,7 @@ public class UsuariosService {
 	}
 
 	
-	public Usuarios deleteUsuario(long id) {
+	public Usuarios deleteUsuario(Long id) {
 		Usuarios tmp = null;
 		if(usuarioRep.existsById(id)) {
 			tmp=usuarioRep.findById(id).get();

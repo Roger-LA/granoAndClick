@@ -1,48 +1,58 @@
 package com.granoAndClick.granoAndClick.model;
 
-import jakarta.persistence.*;
 import java.math.BigDecimal;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "carrito_detalle")
 public class CarritoDetalle {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "detalle_id", unique = true, nullable = false)
-	private Long detalleId;
+	@Column(name = "carrito_detalle_id", unique = true, nullable = false)
+	private Long carritoDetalleId;
 
-	@Column(name = "carrito_id", unique = true, nullable = false)
-	private Long carritoId;
+	@ManyToOne
+	@JoinColumn(name = "producto_id", nullable = false)
+	private Producto producto;
 
-	 @ManyToOne // Relación con Producto
-	    @JoinColumn(name = "producto_id", nullable = false)
-	    private Producto producto; // Cambiado de Long a Producto
-
+	@Column(nullable = false)
 	private Integer cantidad;
 
-	@Column(name = "subtotal", unique = true, nullable = false)
+	@Column(precision = 7, scale = 2)
 	private BigDecimal subtotal;
 
+	@ManyToOne
+	@JoinColumn(name = "carrito_id", nullable = false, referencedColumnName = "carrito_id")
+	private Carrito carrito;
+
+	
+	
 	public CarritoDetalle() {
 	}
 
-	public Long getDetalleId() {
-		return detalleId;
+	public CarritoDetalle(Producto producto, Integer cantidad, Carrito carrito) {
+		this.producto = producto;
+		this.cantidad = cantidad;
+		this.carrito = carrito;
+		this.calcularSubtotal();
 	}
 
-	public void setDetalleId(Long detalleId) {
-		this.detalleId = detalleId;
+	public Producto getProducto() {
+		return producto;
 	}
 
-	public Long getCarritoId() {
-		return carritoId;
+	public void setProducto(Producto producto) {
+		this.producto = producto;
 	}
 
-	public void setCarritoId(Long carritoId) {
-		this.carritoId = carritoId;
-	}
-
-	
 	public Integer getCantidad() {
 		return cantidad;
 	}
@@ -59,11 +69,30 @@ public class CarritoDetalle {
 		this.subtotal = subtotal;
 	}
 
-	public Producto getProducto() {
-		return producto;
+	public Carrito getCarrito() {
+		return carrito;
 	}
 
-	public void setProducto(Producto producto) {
-		this.producto = producto;
+	public void setCarrito(Carrito carrito) {
+		this.carrito = carrito;
 	}
+
+	public Long getCarritoDetalleId() {
+		return carritoDetalleId;
+	}
+	public void calcularSubtotal() {
+	    if (producto != null && cantidad != null) {
+	        this.subtotal = BigDecimal.valueOf(cantidad * producto.getPrecio());
+	    }
+	}
+
+
+	@Override
+	public String toString() {
+		return "CarritoDetalle [detalleId=" + carritoDetalleId + ", producto=" + producto + ", cantidad=" + cantidad
+				+ ", subtotal=" + subtotal + ", carrito=" + carrito + "]";
+	}
+
+	
+	
 }

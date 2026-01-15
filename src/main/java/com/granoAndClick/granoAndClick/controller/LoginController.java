@@ -22,10 +22,12 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.ServletException;
 import java.security.Key;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 
 @RestController
-@RequestMapping("/api/login/")
+@RequestMapping("/api/login")
 @CrossOrigin(origins = "*", methods = {RequestMethod.POST})
 public class LoginController {
 
@@ -46,11 +48,14 @@ public class LoginController {
 	        Usuarios user = service.getByCorreo(usuario.getCorreo());
 	        if(user!=null) {
 		        String role = user.getTiposUsuario().getNombre(); // "admin" o "user"
-
+		        
+		        Date expiration = Date.from(LocalDate.now().plusDays(1) 
+		        		.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		        String jwt = Jwts.builder()
 		                .setSubject(user.getCorreo())
 		                .claim("role", role)
-		                .signWith(jwtKey)
+		                .setExpiration(expiration) //24h
+		                .signWith(jwtKey, SignatureAlgorithm.HS256) 
 		                .compact();
 
 		        return new Token(jwt);

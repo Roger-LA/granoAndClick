@@ -1,5 +1,6 @@
 package com.granoAndClick.granoAndClick.dto;
 
+import java.security.PublicKey;
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -22,7 +23,9 @@ public class RegistrarUsuarioDTO {
 
     private Long tipoUsuarioId;
 
-    public RegistrarUsuarioDTO() {}
+    public RegistrarUsuarioDTO() {
+    
+    }
 
    
     public String getNombres() { return nombres; }

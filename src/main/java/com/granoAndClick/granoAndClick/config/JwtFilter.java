@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -16,11 +16,10 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-public class JwtFilter extends GenericFilterBean {
+public class JwtFilter extends OncePerRequestFilter {
 
     private final Key key;
 
@@ -29,21 +28,12 @@ public class JwtFilter extends GenericFilterBean {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
 
-        HttpServletRequest httpServletRequest = (HttpServletRequest) request;
-        String authHeader = httpServletRequest.getHeader("Authorization");
-        String method = httpServletRequest.getMethod();
-        String URI = httpServletRequest.getRequestURI();
-
-        if (method.equalsIgnoreCase("OPTIONS")) {
-            chain.doFilter(request, response);
-            return;
-        }
-
-        // Rutas que no requieren token obligatoriamente
-        boolean requiereToken = !(URI.startsWith("/api/login") || URI.startsWith("/api/usuarios"));
+        String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
@@ -67,13 +57,11 @@ public class JwtFilter extends GenericFilterBean {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
 
             } catch (ExpiredJwtException | MalformedJwtException | SignatureException e) {
-                throw new ServletException("Invalid Token: " + e.getMessage());
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid Token: " + e.getMessage());
+                return;
             }
-        } else if (requiereToken) {
-            // Si la ruta requiere token y no se envió es error
-            throw new ServletException("Invalid Token: missing or malformed Authorization header");
         }
 
-        chain.doFilter(request, response);
+        filterChain.doFilter(request, response);
     }
 }

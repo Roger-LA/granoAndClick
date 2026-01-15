@@ -3,9 +3,6 @@ package com.granoAndClick.granoAndClick.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,11 +19,9 @@ import com.granoAndClick.granoAndClick.dto.RegistrarUsuarioDTO;
 import com.granoAndClick.granoAndClick.model.Usuarios;
 import com.granoAndClick.granoAndClick.service.UsuariosService;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 
 @RestController
-@RequestMapping(path="/api")
+@RequestMapping(path="/api/usuarios")
 @CrossOrigin(origins = "*")
 public class UsuariosController {
 	private final UsuariosService uService;
@@ -37,17 +31,17 @@ public class UsuariosController {
 		this.uService = uService;
 	}
 	
-	@GetMapping("/usuarios/")
+	@GetMapping
 	public List<Usuarios> getUsuario(){
 		return uService.getUsuarios();
 	} 
 	
-	@GetMapping("/usuario/{userid}")
+	@GetMapping("{userid}")
 	public Usuarios getUsuario(@PathVariable ("userid") long id) {
 		return uService.getUsuario(id);
 	}
 	
-	@PostMapping("/usuarios")
+	@PostMapping
 	public Usuarios addUsuario(@RequestBody RegistrarUsuarioDTO dto) {
 	    var auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -69,12 +63,12 @@ public class UsuariosController {
 	    return nuevo;
 	}
 
-	@DeleteMapping("/usuario/{userid}")
+	@DeleteMapping("{userid}")
 	public Usuarios deleteUsuario(@PathVariable ("userid") long id) {
 		return uService.deleteUsuario(id);
 	}
 	
-	@PutMapping(path="/usuario/{userid}")
+	@PutMapping(path="{userid}")
 	public Usuarios updateUsuario(@PathVariable("userid") Long id,
 			@RequestBody ChangePassword changePassword) {
 		return uService.updateUsuario(id,changePassword);
