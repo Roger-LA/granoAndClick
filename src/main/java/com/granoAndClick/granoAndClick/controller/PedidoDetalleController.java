@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import com.granoAndClick.granoAndClick.dto.PedidoDetalleDTO;
 import com.granoAndClick.granoAndClick.model.PedidoDetalle;
 import com.granoAndClick.granoAndClick.service.PedidoDetalleService;
 
@@ -23,19 +24,19 @@ public class PedidoDetalleController {
         return detalleService.getAllDetalles();
     }
  
-    @GetMapping("/{pedidoId}")
+    @GetMapping("/pedido/{pedidoId}")
     public List<PedidoDetalle> getByPedido(@PathVariable("pedidoId") Long pedidoId) {
         return detalleService.getDetallesByPedido(pedidoId);
     }
 
     @PostMapping
-    public PedidoDetalle addDetalle(@RequestBody PedidoDetalle detalle) {
-        return detalleService.addDetalle(detalle);
+    public PedidoDetalle addDetalle(@RequestBody PedidoDetalleDTO detalleDto) {
+        return detalleService.addDetalle(detalleDto);
     }
     
     @PutMapping("/{id}")
-    public PedidoDetalle updateDetalle(@PathVariable("id") Long id, @RequestBody PedidoDetalle detalle) {
-        return detalleService.updateDetalle(id, detalle);
+    public PedidoDetalle updateDetalle(@PathVariable("id") Long id, @RequestBody PedidoDetalleDTO detalleDto) {
+        return detalleService.updateDetalle(id, detalleDto);
     }
 
     @DeleteMapping("/{id}")
@@ -43,4 +44,3 @@ public class PedidoDetalleController {
         detalleService.deleteDetalle(id);
     }
 }
-

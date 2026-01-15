@@ -20,66 +20,57 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-
 @Entity
 @Table(name = "carrito")
 public class Carrito {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "carrito_id", unique = true, nullable = false)
-    private Long carritoId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "carrito_id", unique = true, nullable = false)
+	private Long carritoId;
 
-    @Column(name = "costo_envio", nullable = false, precision = 5, scale = 2)
-    private BigDecimal costoEnvio;
+	@Column(name = "costo_envio", nullable = false, precision = 5, scale = 2)
+	private BigDecimal costoEnvio;
 
-    @Column(nullable = false, precision = 9, scale = 2)
-    private BigDecimal total;
+	@Column(nullable = false, precision = 9, scale = 2)
+	private BigDecimal total;
 
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime fechaAgregado;
+	@CreationTimestamp
+	@Column(nullable = false, updatable = false)
+	private LocalDateTime fechaAgregado;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false, referencedColumnName = "usuario_id")
-    private Usuarios usuarios;
+	@ManyToOne
+	@JoinColumn(name = "usuario_id", nullable = false, referencedColumnName = "usuario_id")
+	private Usuarios usuarios;
 
-    @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CarritoDetalle> detalles;
+	@OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<CarritoDetalle> detalles;
 
-    public Carrito(BigDecimal costoEnvio, Usuarios usuarios, Set<CarritoDetalle> detalles) {
-        this.costoEnvio = costoEnvio;
-        this.calcularTotal();
-        this.usuarios = usuarios;
-        this.detalles = detalles;
-        this.fechaAgregado = LocalDateTime.now();
-    }
+	public Carrito(BigDecimal costoEnvio, Usuarios usuarios, Set<CarritoDetalle> detalles) {
+		this.costoEnvio = costoEnvio;
+		this.calcularTotal();
+		this.usuarios = usuarios;
+		this.detalles = detalles;
+		this.fechaAgregado = LocalDateTime.now();
+	}
 
-    public Carrito() {
-    }
-
-  
-    
+	public Carrito() {
+	}
 
 	public Long getCarritoId() {
-        return carritoId;  
-    }
+		return carritoId;
+	}
 
 	public BigDecimal getCostoEnvio() {
 		return costoEnvio;
 	}
 
-
-	public void setCostoEnvio(BigDecimal 	costoEnvio) {
+	public void setCostoEnvio(BigDecimal costoEnvio) {
 		this.costoEnvio = costoEnvio;
 	}
 
-public BigDecimal getTotal() {
+	public BigDecimal getTotal() {
 		return total;
-	}
-
-	public void setTotal(BigDecimal total) {
-		this.total = total;
 	}
 
 	public LocalDateTime getFechaAgregado() {
@@ -87,7 +78,7 @@ public BigDecimal getTotal() {
 	}
 
 	public void setFechaAgregado(LocalDateTime fechaAgregado) {
-		this.fechaAgregado =   LocalDateTime.now();
+		this.fechaAgregado = LocalDateTime.now();
 
 	}
 
@@ -106,24 +97,23 @@ public BigDecimal getTotal() {
 	public void setDetalles(Set<CarritoDetalle> detalles) {
 		this.detalles = detalles;
 	}
+
 	public void calcularTotal() {
-	    BigDecimal subtotalCarrito = BigDecimal.ZERO;
+		BigDecimal subtotalCarrito = BigDecimal.ZERO;
 
-	    if (detalles != null) {
-	        for (CarritoDetalle detalle : detalles) {
-	            if (detalle.getSubtotal() != null) {
-	                subtotalCarrito = subtotalCarrito.add(detalle.getSubtotal());
-	            }
-	        }
-	    }
+		if (detalles != null) {
+			for (CarritoDetalle detalle : detalles) {
+				if (detalle.getSubtotal() != null) {
+					subtotalCarrito = subtotalCarrito.add(detalle.getSubtotal());
+				}
+			}
+		}
 
-	    if (costoEnvio != null) {
-	        this.total = subtotalCarrito.add(costoEnvio);
-	    } else {
-	        this.total = subtotalCarrito;
-	    }
+		if (costoEnvio != null) {
+			this.total = subtotalCarrito.add(costoEnvio);
+		} else {
+			this.total = subtotalCarrito;
+		}
 	}
 
-    
-    
 }

@@ -12,7 +12,7 @@ public class Pedido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "pedido_id")
 	private Long pedidoId;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "usuario_id", nullable = false)
 	private Usuarios usuario;
@@ -24,24 +24,32 @@ public class Pedido {
 	@Column(name = "estado", nullable = false)
 	private String estado;
 
-	@Column(name = "costo_envio", nullable = false)
+	@Column(name = "costo_envio", nullable = false, precision = 5, scale = 2)
 	private BigDecimal costoEnvio;
 
-	@Column(name = "total", nullable = false)
+	@Column(name = "total", nullable = false, precision = 9, scale = 2)
 	private BigDecimal total;
-	
-	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-    private List<PedidoDetalle> detalles;
+
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<PedidoDetalle> detalles;
 
 	public Pedido() {
 	}
 
-	public Pedido(Usuarios usuario, Date fechaPedido, String estado, BigDecimal costoEnvio, BigDecimal total) {
-		this.usuario = usuario;
-		this.fechaPedido = fechaPedido;
-		this.estado = estado;
-		this.costoEnvio = costoEnvio;
-		this.total = total;
+	public void calcularTotal() {
+		BigDecimal subtotalPedido = BigDecimal.ZERO;
+
+		if (detalles != null) {
+			for (PedidoDetalle detalle : detalles) {
+				subtotalPedido = subtotalPedido.add(detalle.getSubtotal());
+			}
+		}
+
+		if (costoEnvio != null) {
+			this.total = subtotalPedido.add(costoEnvio);
+		} else {
+			this.total = subtotalPedido;
+		}
 	}
 
 	public Long getPedidoId() {
@@ -52,12 +60,12 @@ public class Pedido {
 		this.pedidoId = pedidoId;
 	}
 
-	public Usuarios getUsuarioId() {
+	public Usuarios getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuarioId(Usuarios usuario_id) {
-		this.usuario = usuario_id;
+	public void setUsuario(Usuarios usuario) {
+		this.usuario = usuario;
 	}
 
 	public Date getFechaPedido() {
@@ -92,8 +100,13 @@ public class Pedido {
 		this.total = total;
 	}
 
-	@Override
-	public String toString() {
-		return "Pedido [id=" + pedidoId + ", usuario=" + usuario + ", total=" + total + "]";
+	public List<PedidoDetalle> getDetalles() {
+		return detalles;
 	}
+
+	public void setDetalles(List<PedidoDetalle> detalles) {
+		this.detalles = detalles;
+	}
+	
+	
 }

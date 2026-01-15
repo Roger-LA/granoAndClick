@@ -36,7 +36,7 @@ public class CarritoController {
     }
 
     @DeleteMapping("/{carritoId}")
-    public Carrito deleteCarrito(@PathVariable Long id) {
+    public Carrito deleteCarrito(@PathVariable ("carritoId") Long id) {
         return service.deleteCarrito(id);
     }
     @PutMapping("/{carritoId}")
