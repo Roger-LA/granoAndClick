@@ -20,7 +20,6 @@ import com.granoAndClick.granoAndClick.service.ProductoService;
 
 @RestController
 @RequestMapping(path= "/api/productos")
-@CrossOrigin(origins = "https://roger-la.github.io/", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class ProductoController {
 	
 	private final ProductoService service;

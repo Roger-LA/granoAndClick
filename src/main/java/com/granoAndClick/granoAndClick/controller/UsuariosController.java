@@ -22,7 +22,6 @@ import com.granoAndClick.granoAndClick.service.UsuariosService;
 
 @RestController
 @RequestMapping(path="/api/usuarios")
-@CrossOrigin(origins = "*")
 public class UsuariosController {
 	private final UsuariosService uService;
 	

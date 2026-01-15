@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.granoAndClick.granoAndClick.repository.CarritoDetalleRepository;
 import com.granoAndClick.granoAndClick.service.CarritoDetalleService;
 import com.granoAndClick.granoAndClick.dto.CarritoDetalleDTO;
 import com.granoAndClick.granoAndClick.model.CarritoDetalle;

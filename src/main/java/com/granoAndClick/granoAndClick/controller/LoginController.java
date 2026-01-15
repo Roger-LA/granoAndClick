@@ -3,14 +3,11 @@ package com.granoAndClick.granoAndClick.controller;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.granoAndClick.granoAndClick.config.JwtFilter;
 import com.granoAndClick.granoAndClick.dto.Token;
-import com.granoAndClick.granoAndClick.model.TiposUsuarios;
 import com.granoAndClick.granoAndClick.model.Usuarios;
 import com.granoAndClick.granoAndClick.service.UsuariosService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +25,6 @@ import java.time.ZoneId;
 
 @RestController
 @RequestMapping("/api/login")
-@CrossOrigin(origins = "*", methods = {RequestMethod.POST})
 public class LoginController {
 
     
