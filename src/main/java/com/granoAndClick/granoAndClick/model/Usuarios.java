@@ -3,6 +3,8 @@ package com.granoAndClick.granoAndClick.model;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
+
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
@@ -43,6 +45,9 @@ public class Usuarios {
 	@CreationTimestamp
 	@Column(length = 10,nullable=true,updatable = false)
 	private LocalDateTime fechaRegistro;// TIMESTAMP
+	
+   @OneToMany(mappedBy = "usuarios")
+    private Set<Carrito> carrito;
 	
 	public Usuarios(String nombres, String apellidos, String correo, String telefono,
 			LocalDate fechaNacimiento, String calleNumero, String municipio, String colonia, String codigoPostal,
@@ -184,6 +189,14 @@ public class Usuarios {
 	    }
 	}
 
+
+	public Set<Carrito> getCarrito() {
+		return carrito;
+	}
+
+	public void setCarrito(Set<Carrito> carrito) {
+		this.carrito = carrito;
+	}
 
 	@Override
 	public String toString() {

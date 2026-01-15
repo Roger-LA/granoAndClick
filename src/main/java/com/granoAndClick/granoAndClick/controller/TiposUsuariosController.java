@@ -19,12 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.granoAndClick.granoAndClick.service.TiposUsuariosService;
 
 @RestController
-@RequestMapping("/api/tiposUsuarios/")
-@CrossOrigin(
-	    origins = "*",
-	    		methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT,RequestMethod.DELETE,RequestMethod.OPTIONS}
-	)
-
+@RequestMapping("/api/tiposUsuarios")
 public class TiposUsuariosController {
 
 	private final TiposUsuariosService service;

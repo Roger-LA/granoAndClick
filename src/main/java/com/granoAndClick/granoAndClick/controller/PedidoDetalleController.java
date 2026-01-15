@@ -8,8 +8,7 @@ import com.granoAndClick.granoAndClick.model.PedidoDetalle;
 import com.granoAndClick.granoAndClick.service.PedidoDetalleService;
 
 @RestController
-@RequestMapping(path = "/api/detalles-pedidos")
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@RequestMapping(path = "/api/pedidosDetalle")
 public class PedidoDetalleController {
 
     private final PedidoDetalleService detalleService;
@@ -24,7 +23,7 @@ public class PedidoDetalleController {
         return detalleService.getAllDetalles();
     }
  
-    @GetMapping("/pedido/{pedidoId}")
+    @GetMapping("/{pedidoId}")
     public List<PedidoDetalle> getByPedido(@PathVariable("pedidoId") Long pedidoId) {
         return detalleService.getDetallesByPedido(pedidoId);
     }

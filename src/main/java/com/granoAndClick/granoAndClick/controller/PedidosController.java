@@ -10,7 +10,6 @@ import com.granoAndClick.granoAndClick.service.PedidoService;
 
 @RestController
 @RequestMapping(path = "/api/pedidos")
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class PedidosController {
 
     private final PedidoService pedidoService;

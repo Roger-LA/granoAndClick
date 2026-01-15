@@ -3,14 +3,11 @@ package com.granoAndClick.granoAndClick.controller;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.granoAndClick.granoAndClick.config.JwtFilter;
 import com.granoAndClick.granoAndClick.dto.Token;
-import com.granoAndClick.granoAndClick.model.TiposUsuarios;
 import com.granoAndClick.granoAndClick.model.Usuarios;
 import com.granoAndClick.granoAndClick.service.UsuariosService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,11 +19,12 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.ServletException;
 import java.security.Key;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 
 @RestController
-@RequestMapping("/api/login/")
-@CrossOrigin(origins = "*", methods = {RequestMethod.POST})
+@RequestMapping("/api/login")
 public class LoginController {
 
     
@@ -46,11 +44,14 @@ public class LoginController {
 	        Usuarios user = service.getByCorreo(usuario.getCorreo());
 	        if(user!=null) {
 		        String role = user.getTiposUsuario().getNombre(); // "admin" o "user"
-
+		        
+		        Date expiration = Date.from(LocalDate.now().plusDays(1) 
+		        		.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		        String jwt = Jwts.builder()
 		                .setSubject(user.getCorreo())
 		                .claim("role", role)
-		                .signWith(jwtKey)
+		                .setExpiration(expiration) //24h
+		                .signWith(jwtKey, SignatureAlgorithm.HS256) 
 		                .compact();
 
 		        return new Token(jwt);
