@@ -10,7 +10,6 @@ import com.granoAndClick.granoAndClick.service.ContactosService;
 
 @RestController
 @RequestMapping("/api/contactos")
-@CrossOrigin(origins = "*")
 public class ContactosController {
 
     @Autowired

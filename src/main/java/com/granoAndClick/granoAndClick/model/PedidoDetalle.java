@@ -11,15 +11,17 @@ public class PedidoDetalle {
 	@Column(name = "detalle_id", unique = true, nullable = false)
 	private Long detalleId;
 
-	@Column(name = "pedido_id", unique = true, nullable = false)
-	private Long pedidoId;
+	@ManyToOne
+	@JoinColumn(name = "pedido_id", nullable = false)
+	private Pedido pedido;
 
-	@Column(name = "producto_id", unique = true, nullable = false)
-	private Long productoId;
+	@ManyToOne
+	@JoinColumn(name = "producto_id", nullable = false)
+	private Producto producto;
 
 	private Integer cantidad;
 
-	@Column(name = "precio_unitario", unique = true, nullable = false)
+	@Column(name = "precio_unitario", nullable = false)
 	private BigDecimal precioUnitario;
 
 	public PedidoDetalle() {
@@ -33,20 +35,20 @@ public class PedidoDetalle {
 		this.detalleId = detalleId;
 	}
 
-	public Long getPedidoId() {
-		return pedidoId;
+	public Pedido getPedido() {
+		return pedido;
 	}
 
-	public void setPedidoId(Long pedidoId) {
-		this.pedidoId = pedidoId;
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
 	}
 
-	public Long getProductoId() {
-		return productoId;
+	public Producto getProducto() {
+		return producto;
 	}
 
-	public void setProductoId(Long productoId) {
-		this.productoId = productoId;
+	public void setProducto(Producto producto) {
+		this.producto = producto;
 	}
 
 	public Integer getCantidad() {
@@ -64,4 +66,11 @@ public class PedidoDetalle {
 	public void setPrecioUnitario(BigDecimal precioUnitario) {
 		this.precioUnitario = precioUnitario;
 	}
+
+	@Override
+	public String toString() {
+		return "PedidoDetalle [detalleId=" + detalleId + ", pedidoId=" + pedido + ", productoId=" + producto
+				+ ", cantidad=" + cantidad + ", precioUnitario=" + precioUnitario + "]";
+	}
+
 }

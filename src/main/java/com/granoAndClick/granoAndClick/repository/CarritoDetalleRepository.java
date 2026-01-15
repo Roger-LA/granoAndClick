@@ -8,5 +8,5 @@ import com.granoAndClick.granoAndClick.model.CarritoDetalle;
 @Repository
 public interface CarritoDetalleRepository extends JpaRepository<CarritoDetalle, Long> {
     
-    List<CarritoDetalle> findByCarritoId(Long carritoId);
+    //List<CarritoDetalle> findByCarritoId(Long carritoId);
 }

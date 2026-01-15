@@ -1,73 +1,82 @@
 package com.granoAndClick.granoAndClick.model;
 
-import jakarta.persistence.Entity;
-
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
 @Entity
-@Table(name="usuarios")
+@Table(name = "usuarios")
 public class Usuarios {
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="usuario_id", unique=true, nullable=false)
-	private Long usuario_id;
+	private Long usuarioId;
+
 	@Column(length = 70, nullable=false)
 	private String nombres;// varchar 70
 	@Column(length = 70, nullable=false)
 	private String apellidos;// varchar 70
 	@Column(length = 100, nullable=false)
-	private String correo_electronico;// varchar 100
+	private String correo;// varchar 100
 	@Column(length = 10, nullable=false)
 	private String telefono;// varchar 10
 	@Column(length = 10,nullable=false)	
-	private LocalDate fecha_nacimiento;// DATE
+	private LocalDate fechaNacimiento;// DATE
 	@Column(length = 70,nullable=false)
-	private String calle_numero;// varchar 70
+	private String calleNumero;// varchar 70
 	@Column(length = 100, nullable=false)
 	private String municipio;// varchar 100
 	@Column(length = 100, nullable=false)
 	private String colonia;// varchar 100
 	@Column(length = 5, nullable=false)
-	private String codigo_postal;// varchar 5
+	private String codigoPostal;// varchar 5
 	@Column(length = 255,nullable=false)
 	private String contrasena;// varchar 255
-	@Column(length = 10,nullable=false)
-	private Long tipo_usuario_id;// INT
-
+	@Column(length = 255,nullable=true)
+	private String subindice;
+	@ManyToOne()
+	@JoinColumn(name = "tipo_usuario_id", referencedColumnName = "tipo_usuario_id")
+	private TiposUsuarios tiposUsuario;
+	
 	@CreationTimestamp
 	@Column(length = 10,nullable=true,updatable = false)
-	private LocalDateTime fecha_registro;// TIMESTAMP
+	private LocalDateTime fechaRegistro;// TIMESTAMP
 	
-
-	public Usuarios(String nombres, String apellidos, String correo_electronico, String telefono,
-			LocalDate fecha_nacimiento, String calle_numero, String municipio, String colonia, String codigo_postal,
-			String contrasena, Long tipo_usuario_id, LocalDateTime fecha_registro) {
-		super();
+   @OneToMany(mappedBy = "usuarios")
+    private Set<Carrito> carrito;
+	
+	public Usuarios(String nombres, String apellidos, String correo, String telefono,
+			LocalDate fechaNacimiento, String calleNumero, String municipio, String colonia, String codigoPostal,
+			String contrasena, TiposUsuarios tiposUsuario, LocalDateTime fechaRegistro) {
 		this.nombres = nombres;
 		this.apellidos = apellidos;
-		this.correo_electronico = correo_electronico;
+		this.correo = correo;
 		this.telefono = telefono;
-		this.fecha_nacimiento = fecha_nacimiento;
-		this.calle_numero = calle_numero;
+		this.fechaNacimiento = fechaNacimiento;
+		this.calleNumero = calleNumero;
 		this.municipio = municipio;
 		this.colonia = colonia;
-		this.codigo_postal = codigo_postal;
+		this.codigoPostal = codigoPostal;
 		this.contrasena = contrasena;
-		this.tipo_usuario_id = tipo_usuario_id;
-		this.fecha_registro = fecha_registro;
-	}
-	
+		this.tiposUsuario = tiposUsuario;
+		this.fechaRegistro = fechaRegistro;
+		setSubindice(this.tiposUsuario.getId());
+		}
+
 	public Usuarios() {
-		super();
+
+	}
+
+	public Long getUsuarioId() {
+		return usuarioId;
+	}
+
+	public void setUsuarioId(Long usuarioId) {
+		this.usuarioId = usuarioId;
 	}
 
 	public String getNombres() {
@@ -86,12 +95,12 @@ public class Usuarios {
 		this.apellidos = apellidos;
 	}
 
-	public String getCorreo_electronico() {
-		return correo_electronico;
+	public String getCorreo() {
+		return correo;
 	}
 
-	public void setCorreo_electronico(String correo_electronico) {
-		this.correo_electronico = correo_electronico;
+	public void setCorreo(String correo) {
+		this.correo = correo;
 	}
 
 	public String getTelefono() {
@@ -102,20 +111,20 @@ public class Usuarios {
 		this.telefono = telefono;
 	}
 
-	public LocalDate getFecha_nacimiento() {
-		return fecha_nacimiento;
+	public LocalDate getFechaNacimiento() {
+		return fechaNacimiento;
 	}
 
-	public void setFecha_nacimiento(LocalDate fecha_nacimiento) {
-		this.fecha_nacimiento = fecha_nacimiento;
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	public String getCalle_numero() {
-		return calle_numero;
+	public String getCalleNumero() {
+		return calleNumero;
 	}
 
-	public void setCalle_numero(String calle_numero) {
-		this.calle_numero = calle_numero;
+	public void setCalleNumero(String calleNumero) {
+		this.calleNumero = calleNumero;
 	}
 
 	public String getMunicipio() {
@@ -134,12 +143,12 @@ public class Usuarios {
 		this.colonia = colonia;
 	}
 
-	public String getCodigo_postal() {
-		return codigo_postal;
+	public String getCodigoPostal() {
+		return codigoPostal;
 	}
 
-	public void setCodigo_postal(String codigo_postal) {
-		this.codigo_postal = codigo_postal;
+	public void setCodigoPostal(String codigoPostal) {
+		this.codigoPostal = codigoPostal;
 	}
 
 	public String getContrasena() {
@@ -150,30 +159,52 @@ public class Usuarios {
 		this.contrasena = contrasena;
 	}
 
-	public Long getTipo_usuario_id() {
-		return tipo_usuario_id;
+	public TiposUsuarios getTiposUsuario() {
+		return tiposUsuario;
 	}
 
-	public void setTipo_usuario_id(Long tipo_usuario_id) {
-		this.tipo_usuario_id = tipo_usuario_id;
+	public void setTiposUsuario(TiposUsuarios tiposUsuario) {
+		this.tiposUsuario = tiposUsuario;
 	}
 
-	public LocalDateTime getFecha_registro() {
-		return fecha_registro;
+	public LocalDateTime getFechaRegistro() {
+		return fechaRegistro;
 	}
 
-	public void setFecha_registro(LocalDateTime fecha_registro) {
-		this.fecha_registro = fecha_registro;
+	public void setFechaRegistro(LocalDateTime fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
+	public String getSubindice() {
+		return subindice;
+	}
+
+	public void setSubindice(Long tipos) {
+	    if (tipos != null 
+	        && tipos != null 
+	        && tipos == 1L) {
+	        this.subindice = "Ad";
+	    } else {
+	        this.subindice = "Client";
+	    }
+	}
+
+
+	public Set<Carrito> getCarrito() {
+		return carrito;
+	}
+
+	public void setCarrito(Set<Carrito> carrito) {
+		this.carrito = carrito;
 	}
 
 	@Override
 	public String toString() {
-		return "Usuarios [nombres=" + nombres + ", apellidos=" + apellidos + ", correo_electronico="
-				+ correo_electronico + ", telefono=" + telefono + ", fecha_nacimiento=" + fecha_nacimiento
-				+ ", calle_numero=" + calle_numero + ", municipio=" + municipio + ", colonia=" + colonia
-				+ ", codigo_postal=" + codigo_postal + ", contrasena=" + contrasena + ", tipo_usuario_id="
-				+ tipo_usuario_id + ", fecha_registro=" + fecha_registro + "]";
+		return "Usuarios [usuarioId=" + usuarioId + ", nombres=" + nombres + ", apellidos=" + apellidos + ", correo="
+				+ correo + ", telefono=" + telefono + ", fechaNacimiento=" + fechaNacimiento + ", calleNumero="
+				+ calleNumero + ", municipio=" + municipio + ", colonia=" + colonia + ", codigoPostal=" + codigoPostal
+				+ ", contrasena=" + contrasena + ", subindice=" + subindice + ", tiposUsuario=" + tiposUsuario
+				+ ", fechaRegistro=" + fechaRegistro + "]";
 	}
-	
-	
+
 }

@@ -1,10 +1,25 @@
 package com.granoAndClick.granoAndClick.model;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
 
-import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Set;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.granoAndClick.granoAndClick.dto.CarritoDetalleDTO;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+
 
 @Entity
 @Table(name = "carrito")
@@ -13,49 +28,53 @@ public class Carrito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "carrito_id", unique = true, nullable = false)
-    private Long id;
-    @Column(name = "usuario_id")
-    private Integer usuarioId;
-    @Column(name = "costo_envio", precision = 5, scale = 2)
-    private java.math.BigDecimal costoEnvio;
-    @Column(name = "total", precision = 9, scale = 2)
+    private Long carritoId;
+
+    @Column(name = "costo_envio", nullable = false, precision = 5, scale = 2)
+    private BigDecimal costoEnvio;
+
+    @Column(nullable = false, precision = 9, scale = 2)
     private BigDecimal total;
-    @Column(name = "fecha_agregado")
-    @Temporal(TemporalType.TIMESTAMP)
-    private java.util.Date fechaAgregado;
-    @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL)
-    private List<CarritoDetalle> carritoDetalles;
-    //@ManyToOne
-    //@JoinColumn(name = "usario_id")
-    //private Usuarios usuario;
+
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime fechaAgregado;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false, referencedColumnName = "usuario_id")
+    private Usuarios usuarios;
+
+    @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CarritoDetalle> detalles;
+
+    public Carrito(BigDecimal costoEnvio, Usuarios usuarios, Set<CarritoDetalle> detalles) {
+        this.costoEnvio = costoEnvio;
+        this.calcularTotal();
+        this.usuarios = usuarios;
+        this.detalles = detalles;
+        this.fechaAgregado = LocalDateTime.now();
+    }
 
     public Carrito() {
     }
 
-    public Carrito(Long id, BigDecimal costoEnvio, BigDecimal total, Date fechaAgregado) {
-    	this.id = id;
-		this.costoEnvio = costoEnvio;
-		this.total = total;
-		this.fechaAgregado = fechaAgregado;
-	}
+  
+    
 
-	public Long getId() {
-        return id;
+	public Long getCarritoId() {
+        return carritoId;  
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-	public java.math.BigDecimal getCostoEnvio() {
+	public BigDecimal getCostoEnvio() {
 		return costoEnvio;
 	}
 
-	public void setCostoEnvio(java.math.BigDecimal costoEnvio) {
+
+	public void setCostoEnvio(BigDecimal 	costoEnvio) {
 		this.costoEnvio = costoEnvio;
 	}
 
-	public BigDecimal getTotal() {
+public BigDecimal getTotal() {
 		return total;
 	}
 
@@ -63,18 +82,48 @@ public class Carrito {
 		this.total = total;
 	}
 
-	public java.util.Date getFechaAgregado() {
+	public LocalDateTime getFechaAgregado() {
 		return fechaAgregado;
 	}
 
-	public void setFechaAgregado(java.util.Date fechaAgregado) {
-		this.fechaAgregado = fechaAgregado;
+	public void setFechaAgregado(LocalDateTime fechaAgregado) {
+		this.fechaAgregado =   LocalDateTime.now();
+
 	}
 
-	@Override
-	public String toString() {
-		return "Carrito [id=" + id + ", costoEnvio=" + costoEnvio + ", total=" + total + ", fechaAgregado="
-				+ fechaAgregado + "]";
+	public Usuarios getUsuarios() {
+		return usuarios;
 	}
 
+	public void setUsuarios(Usuarios usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public Set<CarritoDetalle> getDetalles() {
+		return detalles;
+	}
+
+	public void setDetalles(Set<CarritoDetalle> detalles) {
+		this.detalles = detalles;
+	}
+	public void calcularTotal() {
+	    BigDecimal subtotalCarrito = BigDecimal.ZERO;
+
+	    if (detalles != null) {
+	        for (CarritoDetalle detalle : detalles) {
+	            if (detalle.getSubtotal() != null) {
+	                subtotalCarrito = subtotalCarrito.add(detalle.getSubtotal());
+	            }
+	        }
+	    }
+
+	    if (costoEnvio != null) {
+	        this.total = subtotalCarrito.add(costoEnvio);
+	    } else {
+	        this.total = subtotalCarrito;
+	    }
+	}
+
+    
+    
 }

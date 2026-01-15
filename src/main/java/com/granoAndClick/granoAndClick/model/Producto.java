@@ -1,9 +1,14 @@
 package com.granoAndClick.granoAndClick.model;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,23 +27,28 @@ public class Producto {
 	private String nombre;
 	@Column(nullable = false, length = 70)
 	private String descripcion;
-	@Column(nullable = false, length = 7)
+	@Column(nullable = false)
 	private Double precio;
 	@Column(nullable = false, length = 255)
 	private String imagen_url;
 	@Column(name = "activo", nullable = false)
-	private Boolean True;
-	
+	private Boolean activo;
+	@OneToMany(mappedBy = "producto")
+	@JsonIgnore 
+	private List<CarritoDetalle> carritoDetalles;
+	@OneToMany(mappedBy = "producto")
+	@JsonIgnore
+	private List<PedidoDetalle> pedidoDetalles;
 	
 	public Producto(String subindice, String categoria, String nombre, String descripcion, Double precio,
-			String imagen_url, Integer activo, Boolean True) {
+			String imagen_url, Boolean activo) {
 		this.subindice = subindice;
 		this.categoria = categoria;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.precio = precio;
 		this.imagen_url = imagen_url;
-		this.True = True;
+		this.activo = activo;
 	}//constructorProductos
 	
 	public Producto(){
@@ -97,19 +107,19 @@ public class Producto {
 		this.imagen_url = imagen_url;
 	}
 
-	public Boolean  isActivo() {
-		return True;
+	public Boolean  getActivo() {
+		return activo;
 	}
 
-	public void setActivo(Boolean True) {
-		this.True = True;
+	public void setActivo(Boolean activo) {
+		this.activo = activo;
 	}
 
 	@Override
 	public String toString() {
 		return "Producto [id=" + id + ", subindice=" + subindice + ", categoria=" + categoria + ", nombre=" + nombre
 				+ ", descripcion=" + descripcion + ", precio=" + precio + ", imagen_url=" + imagen_url + ", True="
-				+ True + "]";
+				+ activo + "]";
 	}//toString
 
 	
