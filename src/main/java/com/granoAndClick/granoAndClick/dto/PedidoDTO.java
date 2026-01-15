@@ -4,13 +4,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import com.granoAndClick.granoAndClick.model.Pedido;
-
 public class PedidoDTO {
 	private Long pedidoId;
 	private Long usuarioId;
 	private Date fechaPedido;
-	private Pedido.Estado estado;
 	private BigDecimal costoEnvio;
 	private BigDecimal total;
 	private List<PedidoDetalleDTO> detalles;
@@ -40,14 +37,6 @@ public class PedidoDTO {
 
 	public void setFechaPedido(Date fechaPedido) {
 		this.fechaPedido = fechaPedido;
-	}
-
-	public Pedido.Estado getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Pedido.Estado estado) {
-		this.estado = estado;
 	}
 
 	public BigDecimal getCostoEnvio() {

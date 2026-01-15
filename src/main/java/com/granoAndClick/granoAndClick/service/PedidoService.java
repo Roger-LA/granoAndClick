@@ -40,7 +40,6 @@ public class PedidoService {
 		Pedido pedido = new Pedido();
 		pedido.setUsuario(usuario);
 		pedido.setFechaPedido(new Date());
-		pedido.setEstado(dto.getEstado());
 		pedido.setCostoEnvio(dto.getCostoEnvio());
 
 		List<PedidoDetalle> detalles = new ArrayList<>();
@@ -71,7 +70,6 @@ public class PedidoService {
 		Pedido pedidoExistente = pedidoRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
 
-		pedidoExistente.setEstado(dto.getEstado());
 		pedidoExistente.setCostoEnvio(dto.getCostoEnvio());
 
 		pedidoExistente.calcularTotal();
