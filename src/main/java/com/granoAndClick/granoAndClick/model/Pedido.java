@@ -21,11 +21,13 @@ public class Pedido {
 	@Column(name = "fecha_pedido", nullable = false)
 	private Date fechaPedido;
 
+	@Column(name = "estado", nullable = false)
 	private String estado;
 
 	@Column(name = "costo_envio", nullable = false)
 	private BigDecimal costoEnvio;
 
+	@Column(name = "total", nullable = false)
 	private BigDecimal total;
 	
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)

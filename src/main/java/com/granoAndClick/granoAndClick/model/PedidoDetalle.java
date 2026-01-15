@@ -19,6 +19,7 @@ public class PedidoDetalle {
 	@JoinColumn(name = "producto_id", nullable = false)
 	private Producto producto;
 
+	@Column(name = "cantidad", unique = true, nullable = false)
 	private Integer cantidad;
 
 	@Column(name = "precio_unitario", nullable = false)
