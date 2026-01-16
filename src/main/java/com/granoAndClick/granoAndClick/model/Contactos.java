@@ -50,12 +50,12 @@ public class Contactos {
     }
 
     
-    public Contactos(String nombre, String correo, String telefono, String mensaje, String nota) {
+    public Contactos(String nombre, String correo, String telefono, String mensaje) {
 		this.nombre = nombre;
 		this.correo = correo;
 		this.telefono = telefono;
 		this.mensaje = mensaje;
-		this.nota = nota;
+		this.nota = "";
         this.estado = Estado.leido;
         this.fecha = LocalDateTime.now();
 	}
