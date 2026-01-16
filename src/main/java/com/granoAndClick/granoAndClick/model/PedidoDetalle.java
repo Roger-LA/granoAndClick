@@ -12,19 +12,27 @@ public class PedidoDetalle {
 	private Long detalleId;
 
 	@ManyToOne
-	@JoinColumn(name = "pedido_id", nullable = false)
+	@JoinColumn(name = "pedido_id", nullable = false, unique = false)
 	private Pedido pedido;
 
 	@ManyToOne
-	@JoinColumn(name = "producto_id", nullable = false)
+	@JoinColumn(name = "producto_id", nullable = false, unique = false)
 	private Producto producto;
 
+	@Column(name = "cantidad", nullable = false)
 	private Integer cantidad;
 
-	@Column(name = "precio_unitario", nullable = false)
+	@Column(name = "precio_unitario", nullable = false, precision = 9, scale = 2)
 	private BigDecimal precioUnitario;
 
 	public PedidoDetalle() {
+	}
+
+	public BigDecimal getSubtotal() {
+		if (precioUnitario != null && cantidad != null) {
+			return precioUnitario.multiply(new BigDecimal(cantidad));
+		}
+		return BigDecimal.ZERO;
 	}
 
 	public Long getDetalleId() {
@@ -66,11 +74,4 @@ public class PedidoDetalle {
 	public void setPrecioUnitario(BigDecimal precioUnitario) {
 		this.precioUnitario = precioUnitario;
 	}
-
-	@Override
-	public String toString() {
-		return "PedidoDetalle [detalleId=" + detalleId + ", pedidoId=" + pedido + ", productoId=" + producto
-				+ ", cantidad=" + cantidad + ", precioUnitario=" + precioUnitario + "]";
-	}
-
 }

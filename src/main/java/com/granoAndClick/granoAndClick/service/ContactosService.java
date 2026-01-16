@@ -13,6 +13,9 @@ public class ContactosService {
     private ContactosRepository repository;
 
     public Contactos guardarContacto(Contactos contacto) {
+        if (repository.findByMensaje(contacto.getMensaje()).isPresent()) {
+            throw new IllegalStateException("ese contacto ya existe");
+        }
         return repository.save(contacto);
     }
 
