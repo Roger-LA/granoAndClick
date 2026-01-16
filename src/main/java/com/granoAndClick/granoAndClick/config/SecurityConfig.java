@@ -36,10 +36,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
+                .cors(withDefaults()) 
                 .authorizeHttpRequests(auth -> auth
+
                         // rutas públicas
                 		.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                		.requestMatchers(HttpMethod.POST, "/api/login").permitAll()
+                		.requestMatchers(HttpMethod.POST, "/api/login").permitAll() 
+
                 		.requestMatchers("/api/login").authenticated()
                 		.requestMatchers(HttpMethod.POST,"/api/usuarios").permitAll()
                 		.requestMatchers("/api/usuarios").authenticated()
@@ -57,8 +60,7 @@ public class SecurityConfig {
                 		
                 		.requestMatchers(HttpMethod.PUT,"/api/usuarios/recuperar").permitAll()
                 		.requestMatchers("/api/usuarios/recuperar").authenticated()
-       
- 
+
                         // todo lo demás requiere token
                         .anyRequest().authenticated()
                 )

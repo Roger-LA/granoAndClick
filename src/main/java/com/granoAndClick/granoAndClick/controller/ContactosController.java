@@ -25,13 +25,13 @@ public class ContactosController {
         return contactosService.obtenerTodos();
     }
 
-    @GetMapping("/{id}")
-    public Contactos obtenerContactoPorId(@PathVariable Long id) {
+    @GetMapping("/{contactoId}")
+    public Contactos getContactoPorId(@PathVariable ("contactoId") Long id) {
         return contactosService.obtenerPorId(id);
     }
 
-    @DeleteMapping("/{id}")
-    public void eliminarContacto(@PathVariable Long id) {
+    @DeleteMapping("/{contactoId}")
+    public void eliminarContacto(@PathVariable ("contactoId") Long id) {
         contactosService.eliminarContacto(id);
     }
 }

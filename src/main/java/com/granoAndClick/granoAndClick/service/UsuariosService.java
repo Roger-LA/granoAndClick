@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.granoAndClick.granoAndClick.dto.ChangePassword;
+import com.granoAndClick.granoAndClick.dto.RecuperarDTO;
 import com.granoAndClick.granoAndClick.dto.RegistrarUsuarioDTO;
 import com.granoAndClick.granoAndClick.model.TiposUsuarios;
 import com.granoAndClick.granoAndClick.model.Usuarios;
@@ -98,5 +99,17 @@ public class UsuariosService {
 	}
 
 	
+	public Usuarios recuperarPorTelefono(RecuperarDTO dto) {
+	    Usuarios usuario = usuarioRep.findByCorreo(dto.getCorreo())
+	            .orElseThrow(() -> new RuntimeException("El correo no existe"));
+
+	    
+	    if (usuario.getTelefono().equals(dto.getTelefono())) {
+	        usuario.setContrasena(encoder.encode(dto.getNuevaContrasena()));
+	        return usuarioRep.save(usuario);
+	    } else {
+	        throw new RuntimeException("El número de teléfono es incorrecto");
+	    }
+	}
 }
 
