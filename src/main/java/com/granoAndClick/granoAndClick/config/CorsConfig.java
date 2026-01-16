@@ -1,6 +1,5 @@
 package com.granoAndClick.granoAndClick.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -35,9 +34,9 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedOrigins(allowedOrigins.split(","))
                 .allowedMethods("GET", "POST", "PUT", "DELETE");
 
-        registry.addMapping("/api/login")
+        registry.addMapping("/api/login/**")
                 .allowedOrigins(allowedOrigins.split(","))
-                .allowedMethods("POST","GET");
+                .allowedMethods("GET","POST");
 
         registry.addMapping("/api/contactos")
                 .allowedOrigins(allowedOrigins.split(","))
