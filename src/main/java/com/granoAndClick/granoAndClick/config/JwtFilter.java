@@ -33,6 +33,16 @@ public class JwtFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
+    	String path = request.getRequestURI();
+        String method = request.getMethod();
+
+        // EXCEPCIÓN: Si es GET a productos o un preflight de CORS (OPTIONS), deja pasar sin validar Token
+        if ("OPTIONS".equalsIgnoreCase(method) || 
+           (path.startsWith("/api/productos") && "GET".equalsIgnoreCase(method))) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {

@@ -38,10 +38,18 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         // rutas públicas
+                		.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 		.requestMatchers(HttpMethod.POST, "/api/login").permitAll() 
                 		.requestMatchers("/api/login").authenticated()
                 		.requestMatchers(HttpMethod.POST,"/api/usuarios").permitAll()
                 		.requestMatchers("/api/usuarios").authenticated()
+                		.requestMatchers(HttpMethod.POST,"/api/contactos").permitAll()
+                		.requestMatchers("/api/usuarios").authenticated()
+                		.requestMatchers(HttpMethod.GET, "/api/productos").permitAll()
+                		.requestMatchers("/api/productos").authenticated()
+                		.requestMatchers(HttpMethod.POST, "/api/productos").hasRole("ADMIN")
+                		.requestMatchers("/api/productos").authenticated()
+
 
                         // todo lo demás requiere token
                         .anyRequest().authenticated()
