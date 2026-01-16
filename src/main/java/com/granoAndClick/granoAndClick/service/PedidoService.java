@@ -34,8 +34,12 @@ public class PedidoService {
 
 	@Transactional
 	public PedidoResponseDTO addPedido(PedidoDTO dto) {
-		Usuarios usuario = usuariosRepository.findById(dto.getUsuarioId())
-				.orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + dto.getUsuarioId()));
+		
+		String correo = org.springframework.security.core.context.SecurityContextHolder
+                .getContext().getAuthentication().getName();
+		
+		Usuarios usuario = usuariosRepository.findByCorreo(correo)
+				.orElseThrow(() -> new RuntimeException("Usuario no encontrado con correo: " + correo));
 
 		Pedido pedido = new Pedido();
 		pedido.setUsuario(usuario);
