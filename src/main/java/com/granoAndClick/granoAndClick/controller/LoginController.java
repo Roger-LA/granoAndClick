@@ -3,12 +3,15 @@ package com.granoAndClick.granoAndClick.controller;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.granoAndClick.granoAndClick.dto.LoginDTO;
 import com.granoAndClick.granoAndClick.dto.Token;
 import com.granoAndClick.granoAndClick.model.Usuarios;
 import com.granoAndClick.granoAndClick.service.UsuariosService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,5 +75,26 @@ public class LoginController {
 					  .compact();
 		
 	}
+	
+	@GetMapping("/sesion") //Sesion
+	public LoginDTO sesion(Authentication auth) {
+		String correo = auth.getName();
+		Usuarios user = service.getByCorreo(correo);
+		if(user == null) {
+			throw new RuntimeException("Usuario no encontrado");
+		}//if
+		
+		Long tipoId = (user.getTiposUsuario() != null) ? user.getTiposUsuario().getId() : null;
+		String tipoNombre = (user.getTiposUsuario() != null) ? user.getTiposUsuario().getNombre() : null;
+		
+		return new LoginDTO(
+				user.getUsuarioId(),
+				user.getNombres(),
+				user.getCorreo(),
+				tipoId,
+				tipoNombre,
+				user.getSubindice()
+				);
+	}//GetMapping
 	
 }
