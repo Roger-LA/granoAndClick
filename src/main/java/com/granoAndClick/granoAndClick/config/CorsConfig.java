@@ -19,6 +19,7 @@ public class CorsConfig implements WebMvcConfigurer {
         registry.addMapping("/api/usuarios")
         .allowedOrigins(allowedOrigins.split(","))
         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+        
     	registry.addMapping("/api/tiposUsuarios")
                 .allowedOrigins(allowedOrigins.split(","))
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
@@ -50,6 +51,10 @@ public class CorsConfig implements WebMvcConfigurer {
         registry.addMapping("/api/carrito")
                 .allowedOrigins(allowedOrigins.split(","))
                 .allowedMethods("GET", "POST", "PUT", "DELETE");
+
+        registry.addMapping("/api/usuarios/recuperar")
+        .allowedOrigins(allowedOrigins.split(","))
+        .allowedMethods("PUT");
     }
 }
 

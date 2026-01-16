@@ -3,7 +3,10 @@ package com.granoAndClick.granoAndClick.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +27,10 @@ import com.granoAndClick.granoAndClick.service.UsuariosService;
 @RequestMapping(path="/api/usuarios")
 public class UsuariosController {
 	private final UsuariosService uService;
-	
+    
+	@Autowired
+    private PasswordEncoder encoder;
+    
 	@Autowired
 	public UsuariosController (UsuariosService uService) {
 		this.uService = uService;
@@ -67,9 +73,23 @@ public class UsuariosController {
 		return uService.deleteUsuario(id);
 	}
 	
-	@PutMapping(path="{userid}")
-	public Usuarios updateUsuario(@PathVariable("userid") Long id,
-			@RequestBody ChangePassword changePassword) {
-		return uService.updateUsuario(id,changePassword);
+	@PutMapping("/recuperar")
+	public ResponseEntity<String> recuperarPassword(@RequestBody ChangePassword changePassword) {
+	    // Buscar el usuario por correo y teléfono
+	    Usuarios usuario = uService.getByCorreoAndTelefono(changePassword.getCorreo(), changePassword.getTelefono());
+
+	    // Si el usuario no existe, devolver error
+	    if (usuario == null) {
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Correo o teléfono no coinciden");
+	    }
+
+	    // Si el correo y el teléfono coinciden, actualiza la contraseña
+	    usuario.setContrasena(encoder.encode(changePassword.getnPassword()));
+	    uService.updateUsuario(usuario); // Actualizar usuario
+
+	    return ResponseEntity.ok("Contraseña actualizada correctamente");
 	}
+
+
+
 }

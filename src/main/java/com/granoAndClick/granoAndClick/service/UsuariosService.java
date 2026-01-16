@@ -74,18 +74,10 @@ public class UsuariosService {
 		return tmp;
 	}//Add Usuario
 	
-	public Usuarios updateUsuario(Long id, ChangePassword changePassword) {
-		Usuarios tmp = null;
-		if(usuarioRep.existsById(id)) {
-			Usuarios user = usuarioRep.findById(id).get();
-			if(encoder.matches(changePassword.getPassword(), user.getContrasena())) {
-				user.setContrasena(encoder.encode(changePassword.getnPassword()));
-				usuarioRep.save(user);
-				tmp=user;
-			}
-		}
-		return tmp;
-	}//Update Usuario
+	public Usuarios updateUsuario(Usuarios usuario) {
+	    return usuarioRep.save(usuario);
+	}
+//Update Usuario
 	public boolean validateUser(Usuarios usuario) {
 		Optional<Usuarios> usr = usuarioRep.findByCorreo(usuario.getCorreo());
 		if(usr.isPresent()) {
@@ -101,6 +93,10 @@ public class UsuariosService {
 	public Usuarios getByCorreo(String correo) {
 	    return usuarioRep.findByCorreo(correo).orElse(null);
 	}	
+	public Usuarios getByCorreoAndTelefono(String correo, String telefono) {
+	    return usuarioRep.findByCorreoAndTelefono(correo, telefono).orElse(null);
+	}
+
 	
 }
 

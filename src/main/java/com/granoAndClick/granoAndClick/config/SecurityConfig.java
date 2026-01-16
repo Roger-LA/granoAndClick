@@ -1,9 +1,9 @@
 package com.granoAndClick.granoAndClick.config;
-
+ 
 import static org.springframework.security.config.Customizer.withDefaults;
-
+ 
 import java.security.Key;
-
+ 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,16 +13,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+ 
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.security.Keys;
-
+ 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
+ 
     private final Key jwtKey;
-
+ 
     public SecurityConfig() {
         Dotenv dotenv = Dotenv.load();
         String secret = dotenv.get("JWT_SECRET");
@@ -31,18 +31,34 @@ public class SecurityConfig {
         }
         this.jwtKey = Keys.hmacShaKeyFor(secret.getBytes());
     }
-
+ 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         // rutas públicas
-                		.requestMatchers(HttpMethod.POST, "/api/login").permitAll() 
+                		.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                		.requestMatchers(HttpMethod.POST, "/api/login").permitAll()
                 		.requestMatchers("/api/login").authenticated()
                 		.requestMatchers(HttpMethod.POST,"/api/usuarios").permitAll()
                 		.requestMatchers("/api/usuarios").authenticated()
-
+                		.requestMatchers(HttpMethod.POST,"/api/contactos").permitAll()
+                		.requestMatchers("/api/usuarios").authenticated()
+                		.requestMatchers(HttpMethod.GET, "/api/productos").permitAll()
+                		.requestMatchers("/api/productos").authenticated()
+                		.requestMatchers(HttpMethod.POST, "/api/productos").hasRole("ADMIN")
+                		.requestMatchers("/api/productos").authenticated()
+                		.requestMatchers(HttpMethod.POST, "/api/pedidos").permitAll()
+                		.requestMatchers("/api/pedidos").authenticated()
+ 
+                		.requestMatchers(HttpMethod.POST,"/api/contactos").permitAll()
+                		.requestMatchers("/api/usuarios").authenticated()
+                		
+                		.requestMatchers(HttpMethod.PUT,"/api/usuarios/recuperar").permitAll()
+                		.requestMatchers("/api/usuarios/recuperar").authenticated()
+       
+ 
                         // todo lo demás requiere token
                         .anyRequest().authenticated()
                 )
@@ -51,12 +67,12 @@ public class SecurityConfig {
                 .httpBasic(withDefaults())
                 .build();
     }
-
+ 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+ 
     @Bean
     public Key jwtKey() {
         return this.jwtKey;

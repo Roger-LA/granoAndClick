@@ -2,34 +2,42 @@ package com.granoAndClick.granoAndClick.dto;
 
 
 public class ChangePassword {
-	private String password;
-	private String nPassword;
-	public ChangePassword(String password, String nPassword) {
-		super();
-		this.password = password;
-		this.nPassword = nPassword;
-	}
-	
-	public ChangePassword() {
-		super();
-	}
+    private String correo;  
+    private String telefono; 
+    private String password; 
+    private String nPassword; 
 
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getnPassword() {
-		return nPassword;
-	}
-	public void setnPassword(String nPassword) {
-		this.nPassword = nPassword;
-	}
-	@Override
-	public String toString() {
-		return "ChangePassword [password=" + password + ", nPassword=" + nPassword + "]";
-	}
-	
-	
+    // Getters y setters
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getnPassword() {
+        return nPassword;
+    }
+
+    public void setnPassword(String nPassword) {
+        this.nPassword = nPassword;
+    }
 }
+
