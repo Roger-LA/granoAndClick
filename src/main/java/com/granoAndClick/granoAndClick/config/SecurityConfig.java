@@ -42,6 +42,8 @@ public class SecurityConfig {
                 		.requestMatchers("/api/login").authenticated()
                 		.requestMatchers(HttpMethod.POST,"/api/usuarios").permitAll()
                 		.requestMatchers("/api/usuarios").authenticated()
+                		.requestMatchers(HttpMethod.POST,"/api/contactos").permitAll()
+                		.requestMatchers("/api/usuarios").authenticated()
 
                         // todo lo demás requiere token
                         .anyRequest().authenticated()
