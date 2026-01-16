@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.granoAndClick.granoAndClick.dto.ChangePassword;
+import com.granoAndClick.granoAndClick.dto.RecuperarDTO;
 import com.granoAndClick.granoAndClick.dto.RegistrarUsuarioDTO;
 import com.granoAndClick.granoAndClick.model.Usuarios;
 import com.granoAndClick.granoAndClick.service.UsuariosService;
@@ -71,5 +72,10 @@ public class UsuariosController {
 	public Usuarios updateUsuario(@PathVariable("userid") Long id,
 			@RequestBody ChangePassword changePassword) {
 		return uService.updateUsuario(id,changePassword);
+	}
+	
+	@PutMapping("/recuperar-password")
+	public Usuarios recuperarPassword(@RequestBody RecuperarDTO dto) {
+	    return uService.recuperarPorTelefono(dto);
 	}
 }
